@@ -1,0 +1,60 @@
+//recursive approach
+   public int minDifficulty(int[] jobDifficulty, int d) {
+        if(jobDifficulty.length < d){
+            return -1;
+        }
+        return recursion(jobDifficulty, d, 0);
+    }
+    public int recursion(int [] jobDifficulty, int d, int idx){
+        if(d == 1){
+            int ans = Integer.MIN_VALUE;
+            for(int i = idx; i < jobDifficulty.length; i++){
+                 ans = Math.max(ans, jobDifficulty[i]);
+            }
+            return ans;
+        } int curr_min = jobDifficulty[idx];
+        int solution = Integer.MAX_VALUE;
+        for(int i = idx; i <= jobDifficulty.length - d; i++){
+            curr_min = Math.max(curr_min, jobDifficulty[i]);
+            int val = recursion(jobDifficulty,d - 1, i + 1) + curr_min;
+            solution = Math.min(val, solution);    
+        }
+        return solution;
+    }
+
+
+//memoization
+  public int minDifficulty(int[] jobDifficulty, int d) {
+        if(jobDifficulty.length < d){
+            return -1;
+        }
+        int [][] dp = new int[jobDifficulty.length][d + 1];
+        for(int i = 0; i < jobDifficulty.length; i++){
+            Arrays.fill(dp[i], -1);
+        } 
+        return recursion(dp, jobDifficulty, d, 0);
+    }
+    public int recursion(int [][] dp, int [] jobDifficulty, int d, int idx){
+        if(d == 1){
+            int ans = Integer.MIN_VALUE;
+            for(int i = idx; i < jobDifficulty.length; i++){
+                 ans = Math.max(ans, jobDifficulty[i]);
+            }
+            return ans;
+        } 
+        if(dp[idx][d] != -1){
+            return dp[idx][d];
+        }
+        int curr_min = jobDifficulty[idx];
+        int solution = Integer.MAX_VALUE;
+        for(int i = idx; i <= jobDifficulty.length - d; i++){
+            curr_min = Math.max(curr_min, jobDifficulty[i]);
+            int val = recursion(dp, jobDifficulty,d - 1, i + 1) + curr_min;
+            solution = Math.min(val, solution);    
+        }
+        return dp[idx][d] = solution;
+    }
+//tabulation
+    
+
+  
