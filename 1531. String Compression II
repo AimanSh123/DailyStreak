@@ -1,0 +1,26 @@
+// recursive approach
+  public int getLengthOfOptimalCompression(String s, int k) {
+        //recursive
+        return recursion(s, k, 0, 0, 26);
+    }
+    public int recursion(String s, int k, int idx, int len, int prev){
+        if(k < 0 ){
+            return Integer.MAX_VALUE;
+        }
+        if(idx == s.length()){
+            return 0;
+        }
+        int del = recursion(s, k - 1, idx + 1, len, prev);
+        int keep = 0;
+        if(prev == s.charAt(idx) - 'a'){
+            if(len == 1 || len == 9 || len == 99){
+                keep ++;
+            }
+            keep += recursion(s, k, idx + 1, len + 1, prev);
+        }
+        else{
+            keep = 1 + recursion(s, k, idx + 1, 1, s.charAt(idx) - 'a');
+        }
+        return Math.min(keep, del);
+
+    }
