@@ -1,0 +1,37 @@
+ public long minimumCost(int[] nums) {
+        Arrays.sort(nums);
+        long median = nums[nums.length/2];
+        long m1 = median;
+        long m2 = median;
+        while(true){
+            if(isPal(m1)){
+                break;
+            }
+            m1 ++;
+        }
+        while(true){
+            if(isPal(m2)){
+                break;
+            }
+            m2 --;
+        }
+        return Math.min(cost(m1, nums), cost(m2, nums));
+    }
+    public long cost(long m, int [] nums){
+        long cost = 0;
+        for(int i = 0; i < nums.length; i++){
+            cost += Math.abs(nums[i] - m);
+        }
+        return cost;
+    }
+    public boolean isPal(long n){
+        String s = Long.toString(n);
+        int i = 0; int j = s.length() - 1;
+        while(i < j){
+            if(s.charAt(i) != s.charAt(j)){
+                return false;
+            }
+            i++; j--;
+        }
+        return true;
+    }
