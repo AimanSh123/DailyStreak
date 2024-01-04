@@ -1,0 +1,67 @@
+//dp approach
+  public int minOperations(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int el : nums){
+            map.put(el, map.getOrDefault(el, 0) + 1);
+        }
+        int opers = 0;
+        for(Entry<Integer, Integer> entry : map.entrySet()){
+            int [] dp = new int [entry.getValue() + 1];
+            Arrays.fill(dp, -1);
+            int value = recursion(dp, entry.getValue());
+            if(value == Integer.MAX_VALUE){
+                return -1;
+            }
+            opers += value;
+            System.out.println(opers);
+        }    
+        return opers;
+    }
+    public static int recursion(int [] dp, int val){
+        if(val == 0){
+            return 0;
+        }
+        if(val == 1){
+            return Integer.MAX_VALUE;
+        }
+        if(dp[val] != -1){
+            return dp[val];
+        }
+        int value = Integer.MAX_VALUE;
+        if(val % 3 == 0){
+            return val/ 3;
+        }
+      
+        if(val % 2 == 0){
+            value = Math.min(value, val / 2);
+        }
+        if(val >= 3){
+            int recu = recursion(dp, val - 3);
+            if(recu != Integer.MAX_VALUE){
+                value = Math.min(recu + 1, value); 
+            }
+        }
+        if(val >= 2){
+            int recu = recursion(dp, val - 2);
+            if(recu != Integer.MAX_VALUE){
+                value = Math.min(recu + 1, value); 
+            }
+        }
+        return dp[val] = value;
+  
+    }
+// optimal approach
+  public int minOperations(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int el : nums){
+            map.put(el, map.getOrDefault(el, 0) + 1);
+        }
+        int opers = 0;
+        for(Entry<Integer, Integer> entry : map.entrySet()){
+            if(entry.getValue() == 1){
+                return -1;
+            }
+            opers += Math.ceil(entry.getValue()/3.0 );
+        }    
+        return opers;
+    }
