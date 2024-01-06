@@ -1,0 +1,58 @@
+//brute force
+public int nthUglyNumber(int n) {
+        int curr = 1;
+        while(n != 0){
+            if(isItUgly(curr)){
+                n--;
+            }
+            curr++;
+        }
+        return curr - 1;
+        
+    }
+    public boolean isItUgly(int n){
+        while(n % 2 == 0 || n % 3 == 0 || n % 5 == 0){
+            if(n % 2 == 0){
+                n /= 2;
+            }
+            if(n % 3 == 0){
+                n /= 3;
+            }
+            if(n % 5 == 0){
+                n /= 5;
+            }
+        }
+        return n == 1;
+    }
+//using treeset
+ public int nthUglyNumber(int n) {
+        TreeSet<Long> set = new TreeSet<>();
+        long ans = 1; set.add((long) 1);
+        while(n != 0){
+            ans = set.pollFirst();
+            n--;
+            set.add(2 * ans);
+            set.add(3 * ans);
+            set.add(5 * ans);
+        } 
+        return (int) ans;
+    }
+//using priority queue
+ public int nthUglyNumber(int n) {
+        PriorityQueue<Long> pq = new PriorityQueue<Long>();
+        long ans = 1; pq.add((long) 1);
+        while(n != 0){
+            ans = pq.poll();
+            n--;
+            if(!pq.contains(2 * ans)){
+               pq.add(2 * ans);
+            } 
+            if(!pq.contains(3 * ans)){
+               pq.add(3 * ans);
+            }
+            if(!pq.contains(5 * ans)){
+              pq.add(5 * ans);
+            }  
+        }  
+        return (int) ans;
+    }
