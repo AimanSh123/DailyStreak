@@ -23,3 +23,30 @@
         list.add(ans1); list.add(ans2);
         return list;
     }
+//using treeset and treemap
+import java.util.Map;
+class Solution {
+    public List<List<Integer>> findWinners(int[][] matches) {
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> ans1 = new ArrayList<>();//not lost
+        List<Integer> ans2 = new ArrayList<>();//lost once
+        TreeSet<Integer> set_win = new TreeSet<>();
+        TreeMap<Integer, Integer> map_lose = new TreeMap<>();
+        for(int i = 0; i < matches.length; i++){
+            map_lose.put(matches[i][1], map_lose.getOrDefault(matches[i][1], 0) + 1);
+            set_win.add(matches[i][0]);
+        }
+        for(int el : set_win){
+            if(!map_lose.containsKey(el)){
+                ans1.add(el);
+            }
+        }
+        for(Map.Entry<Integer,Integer> entry : map_lose.entrySet()){
+            if(entry.getValue() == 1){
+                ans2.add(entry.getKey());
+            }
+        }
+        list.add(ans1); list.add(ans2);
+        return list;
+    }
+}
