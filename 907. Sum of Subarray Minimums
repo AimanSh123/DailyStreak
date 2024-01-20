@@ -19,5 +19,37 @@ public int sumSubarrayMins(int[] arr) {
 //7 8 3              8 3 4 6 
 //7 8 3 4            3 
 // for the case : 3 3 6 2 5 6 7 8:  2 is the minimal-> g1 = i and g2 = A.size() - i - 1
+
+//optimal approach
+public int sumSubarrayMins(int[] arr) {
+        int sum = 0; int mod = 1000000007; int n = arr.length;
+        Stack<Integer> st = new Stack<>();
+        int [] prev = new int[n]; int [] next = new int[n];
+        for(int i = 0; i < n; i++){
+           prev[i] = i; next[i] = n - i - 1;
+        } 
+        //next small occur hone tak ka count 
+        for(int i = 0; i < n; i++){
+            while(!st.isEmpty() && arr[st.peek()] >= arr[i]){
+                next[st.peek()] = i - st.peek() - 1;
+                st.pop();
+            }
+            st.push(i);
+        }
+        st = new Stack<>();
+        //prev smaller occur honeka count
+        for(int i = n - 1; i >= 0; i--){
+            while(!st.isEmpty() && arr[st.peek()] > arr[i]){
+                prev[st.peek()] = st.peek() - i - 1;
+                st.pop();
+            }
+            st.push(i);
+        }
+        //taking summation
+        for(int i = 0; i < n; i++){
+           sum = (int) ((sum + (long) arr[i] * (next[i] + 1) % mod * (prev[i] + 1) % mod) % mod);
+     }
+        return sum;       
+    }
  
 
