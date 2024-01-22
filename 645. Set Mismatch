@@ -1,0 +1,17 @@
+// using sum of n natural numbers
+ public int[] findErrorNums(int[] nums) {
+        int n = nums.length; long all = ((n) * (n+1))/2;
+        int [] ans = new int[2];
+        long arr = 0; long sq_arr = 0; long sq_all = (all * (2 * n + 1))/3;
+        for(int i = 0; i < nums.length; i++){
+            arr += nums[i];
+            sq_arr += (long)(nums[i] * nums[i]);
+        }
+        //y: missing and // x: duplicate
+        long y_x = all - arr;
+        long y2_x2 = sq_all - sq_arr;
+        long yplusx = y2_x2 / y_x;
+        ans[1] = (int) (yplusx + y_x) / 2;
+        ans[0] = (int)(yplusx - ans[1]);
+        return ans;
+    }
