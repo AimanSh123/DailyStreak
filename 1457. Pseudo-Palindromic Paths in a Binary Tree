@@ -1,0 +1,35 @@
+ public int pseudoPalindromicPaths (TreeNode root) {
+        int [] occur = new int [10];
+        return recursion(root, occur);
+    }
+    public int recursion(TreeNode root, int [] occur){
+        if(root == null){
+            return 0;
+        }
+        if(root.left == null && root.right == null){
+            occur[root.val] ++;
+            if(palindrome(occur)){
+                occur[root.val] --;
+                return 1;
+            }
+            occur[root.val]--;
+            return 0;
+        }
+        occur[root.val] ++;      
+        int result = recursion(root.left, occur) + recursion(root.right, occur);
+        occur[root.val] --;
+        return result;
+    }
+    public boolean palindrome(int [] occur){
+        int counter = 0;
+        for(int it : occur){
+            if(it % 2 == 1){
+                counter++;
+            }
+        }
+        if(counter > 1){
+                return false;
+        }
+        
+        return true;
+    }
