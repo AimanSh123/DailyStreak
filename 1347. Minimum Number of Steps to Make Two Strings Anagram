@@ -1,0 +1,22 @@
+ public int minSteps(String s, String t) {
+        HashMap<Character, Integer> map_s = new HashMap<>();
+        HashMap<Character, Integer> map_t = new HashMap<>();
+        for(int i = 0; i < s.length(); i++){
+            map_s.put(s.charAt(i), map_s.getOrDefault(s.charAt(i), 0) + 1);
+            map_t.put(t.charAt(i), map_t.getOrDefault(t.charAt(i), 0) + 1);
+        } int count = 0;
+        for(Map.Entry<Character, Integer> entry : map_s.entrySet()){
+            char ch = entry.getKey(); int val = entry.getValue();
+            if(!map_t.containsKey(ch)){
+                 count += val;
+            }
+            else{
+                if(val > map_t.get(ch)){
+                    count += (val - map_t.get(ch));
+                }
+            }
+
+        }
+        return count;
+
+    }
