@@ -1,0 +1,37 @@
+  public int amountOfTime(TreeNode root, int start) {
+        // lets make the graph first
+        HashMap<Integer, List<Integer>> list = new HashMap<>();
+        dfs(root, list);
+        HashSet<Integer> set = new HashSet<>();
+        //bfs se hojayega 
+        int time = -1;
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(start);
+        while(!q.isEmpty()){
+            time++;
+            int currSize = q.size();
+            for(int i = 0; i < currSize; i++){
+                int curr = q.remove();
+                set.add(curr);
+                for(int neigh: list.get(curr)){
+                  if(!set.contains(neigh)){
+                    q.add(neigh);
+                  }
+                }
+            }
+        }
+        return time;
+    }
+    public void dfs(TreeNode root, HashMap<Integer, List<Integer>> list){
+        if(root.left != null){
+            list.computeIfAbsent(root.val, k -> new ArrayList<>()).add(root.left.val);
+            list.computeIfAbsent(root.left.val, k -> new ArrayList<>()).add(root.val);
+            dfs(root.left, list);
+        }
+        if(root.right != null){
+            list.computeIfAbsent(root.val, k -> new ArrayList<>()).add(root.right.val);
+            list.computeIfAbsent(root.right.val, k -> new ArrayList<>()).add(root.val);
+            dfs(root.right, list);
+        }
+        list.computeIfAbsent(root.val, k -> new ArrayList<>());
+    }
