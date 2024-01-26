@@ -1,0 +1,59 @@
+//memoization
+ public int MOD = 1000000007;
+    public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        int [][][] dp = new int[m][n][maxMove + 1];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                Arrays.fill(dp[i][j],-1);
+            }
+        }
+        return recursion(dp, m, n, maxMove, startRow, startColumn);
+    }
+    //m represents row
+    //n represents column
+    public int recursion(int [][][] dp, int m, int n, int maxMove, int row, int col){
+        if(row == -1 || row == m || col == -1 || col == n){
+            return 1;
+        }
+        if(dp[row][col][maxMove] != -1){
+            return dp[row][col][maxMove];
+        }
+        int res = 0;
+        if(maxMove >= 1){
+            res = (res + recursion(dp,m,n,maxMove - 1,row - 1,col)) % MOD;//top
+            res = (res + recursion(dp,m,n,maxMove - 1,row,col-1)) % MOD;//left
+            res = (res + recursion(dp,m,n,maxMove - 1, row + 1, col)) % MOD;//
+            res = (res + recursion(dp,m,n,maxMove - 1,row, col + 1)) % MOD;//right
+        }
+        return  dp[row][col][maxMove] = res;
+    }
+//tabulation
+  public int MOD = 1000000007;
+    public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        int [][][] dp = new int[m+2][n+2][maxMove + 1];
+        for(int i = 0; i <= m + 1; i++){
+           for(int k = 0; k <= maxMove; k++){ 
+              dp[i][n + 1][k] = 1;
+              dp[i][0][k] = 1;
+           }
+        }
+        for(int i = 0; i <= n + 1; i++){
+            for(int k = 0; k <= maxMove; k++){ 
+               dp[m+1][i][k] = 1;
+               dp[0][i][k] = 1;
+            }     
+        }
+        for(int mov = 1; mov <= maxMove; mov++){
+            for(int rw = 1; rw <= m; rw++){
+               for(int cl = 1; cl <= n; cl++){
+                int res = 0;
+                res = (res + dp[rw - 1][cl][mov - 1]) % MOD;
+                res = (res + dp[rw][cl - 1][mov - 1]) % MOD;
+                res = (res + dp[rw + 1][cl][mov - 1]) % MOD;
+                res = (res + dp[rw][cl + 1][mov - 1]) % MOD;
+                dp[rw][cl][mov] = res;
+               }
+            }
+        }
+        return dp[startRow + 1][startColumn + 1][maxMove];
+    }
