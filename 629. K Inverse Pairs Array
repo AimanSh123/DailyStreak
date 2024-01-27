@@ -34,3 +34,54 @@
         }
         return count == k;
     }
+//optimal approach : memoization
+ private final int MOD = 1000000007;
+    public int kInversePairs(int n, int k) {
+        int [][] dp = new int[n + 1][k + 1];
+        for(int i = 0; i < dp.length; i++){
+            Arrays.fill(dp[i], -1);
+        }
+        return getInversions(dp, n, k);
+    }
+
+    private int getInversions(int [][] dp,int n, int k) {
+        if (n == 0) {
+            return 0;
+        }
+        if (k == 0) {
+            return 1;
+        }
+        if (dp[n][k] != -1) {
+            return dp[n][k];
+        }
+        int result = 0;
+        for (int inversion = 0; inversion <= Math.min(k, n - 1); inversion++) {
+            result += getInversions(dp, n - 1, k - inversion);
+            result %= MOD;
+        }
+        return dp[n][k] = result;
+    }
+//tabulation
+  private final int MOD = 1000000007;
+    public int kInversePairs(int n, int k) {
+        int [][] dp = new int[n + 1][k + 1];
+        for(int i = 0; i < dp[0].length; i++){
+            dp[0][i] = 0;
+        }
+        for(int i = 0; i < dp.length; i++){
+            dp[i][0] = 1;
+        }
+        for(int i = 1; i < dp.length; i++){
+            for(int j = 1; j < dp[0].length; j++){
+                int result = 0;
+                for (int inv = 0; inv <= Math.min(j, i - 1); inv++) {
+                  if(j - inv >= 0){  
+                    result += dp[i - 1][j - inv];
+                    result %= MOD;
+                  }
+                }
+                dp[i][j] = result;
+            }
+        }
+        return dp[n][k];
+    }
