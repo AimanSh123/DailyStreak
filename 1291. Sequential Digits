@@ -1,0 +1,29 @@
+//generating all possible digits
+ public List<Integer> sequentialDigits(int low, int high) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=1; i<=9; i++){
+            int num = i; int digit = i + 1;
+            while(num <= high && digit <= 9){
+               num = num * 10 + digit;
+               if(num >= low && num <= high) list.add(num);
+               digit++;
+            }
+        }
+        Collections.sort(list);
+        return list;
+    }
+//from string deriving al possbile sequential digits
+  public List<Integer> sequentialDigits(int low, int high) {
+        List<Integer> list = new ArrayList<>();
+        String str = "123456789";
+        for(int i = 0; i < str.length(); i++){
+            for(int j = i; j < str.length(); j++){
+               int num = Integer.parseInt(str.substring(i, j + 1));
+               if(num >= low && num <= high){
+                   list.add(num);
+               }
+            }
+        }
+        Collections.sort(list);
+        return list;
+    }
