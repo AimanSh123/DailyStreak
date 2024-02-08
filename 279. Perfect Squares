@@ -1,0 +1,50 @@
+//brute force
+public int numSquares(int n) {
+        return recursion(n);        
+    }
+    public int recursion(int n){
+        if(n == 0){
+            return 0;
+        } int sol = Integer.MAX_VALUE;
+        for(int i = 1; i * i <= n; i++){
+            if(n - i * i >= 0){
+               sol = Math.min(sol, recursion(n - i * i) + 1);
+            }
+        }
+        return sol;
+    }
+//memoization 
+public int numSquares(int n) {
+        int [] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return recursion(dp, n);        
+    }
+    public int recursion(int [] dp, int n){
+        if(n == 0){
+            return 0;
+        }
+        if(dp[n] != -1){
+             return dp[n];    
+        } 
+        int sol = Integer.MAX_VALUE;
+        for(int i = 1; i * i <= n; i++){
+            if(n - i * i >= 0){
+               sol = Math.min(sol, recursion(dp, n - i * i) + 1);
+            }
+        }
+        return dp[n] = sol;
+    }
+//tabulation
+ public int numSquares(int n) {
+        int [] dp = new int[n + 1];
+        for(int idx = 1; idx <= n; idx++){
+            int sol = Integer.MAX_VALUE;
+            for(int i = 1; i * i <= idx; i++){
+                if(idx - i * i >= 0){
+                   sol = Math.min(sol, dp[idx - i * i] + 1);
+                }
+            }
+            dp[idx] = sol;
+        }
+        return dp[n];        
+    }
