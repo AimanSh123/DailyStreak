@@ -19,8 +19,8 @@
         List<Integer> res = new ArrayList<>();
         res.add(arr[idx]); 
         while(hash[idx] != idx){
-            res.add(arr[idx]);
-            idx = hash[idx];
+          idx = hash[idx];
+          res.add(arr[idx]);
         }
         Collections.reverse(res);
         return (res);
