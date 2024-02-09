@@ -1,0 +1,39 @@
+ public String minWindow(String s, String t) {
+        if(t.length() > s.length()){
+            return "";
+        }
+        HashMap<Character, Integer> map_s = new HashMap<>();
+        HashMap<Character, Integer> map_t = new HashMap<>();
+        for(int i = 0; i < t.length(); i++){
+            map_t.put(t.charAt(i), map_t.getOrDefault(t.charAt(i),0) + 1);
+        }
+        int i = 0; int j = 0; int count = 0; int idx = -1;
+        int len = Integer.MAX_VALUE;
+        while(j < s.length()){
+            map_s.put(s.charAt(j), map_s.getOrDefault(s.charAt(j), 0) + 1);
+            if(map_t.containsKey(s.charAt(j)) && map_s.get(s.charAt(j)) <= map_t.get(s.charAt(j))){
+                count++;
+            }
+            if(count == t.length()){
+                char ch = s.charAt(i);
+                while(i < s.length() && (!map_t.containsKey(ch) || map_t.get(ch) < map_s.get(ch))){
+                    if(map_s.get(ch) == 1){
+                        map_s.remove(ch);
+                    }
+                    else{
+                        map_s.put(ch, map_s.get(ch) - 1);
+                    }
+                    i++; ch = s.charAt(i);
+                }
+                if(len > j - i + 1){
+                    idx = i; len = j - i + 1;
+                }
+            }
+            j++; 
+        }
+        if(idx == -1){
+            return "";
+        }
+        return s.substring(idx, idx + len);
+
+    }
