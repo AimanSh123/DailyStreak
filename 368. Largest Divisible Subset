@@ -1,0 +1,25 @@
+//recursion
+ public List<Integer> largestDivisibleSubset(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        Arrays.sort(nums);
+        return recursion(nums, list, 0);
+    }
+    public List<Integer> recursion(int [] nums, List<Integer> list, int idx){
+        if(idx == nums.length){
+             return new ArrayList<>(list);
+        }
+        List<Integer> not_Take = recursion(nums, list, idx + 1);
+        List<Integer> take = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i) % nums[idx] == 0 || nums[idx] % list.get(i) == 0){
+                continue;
+            }
+            else{
+                return not_Take;
+            }
+        }
+        list.add(nums[idx]);
+        take = recursion(nums, list, idx + 1);
+        list.remove(list.size() - 1);
+        return not_Take.size() > take.size() ? not_Take : take;
+    }
