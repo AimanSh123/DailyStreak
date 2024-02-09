@@ -67,7 +67,7 @@ public int lengthOfLIS(int[] nums) {
        }
        return dp[0];
     }
-//most optimal approach
+//optimal approach
   public int lengthOfLIS(int[] nums) {
         int[] dp = new int[nums.length];
         Arrays.fill(dp, 1); int len = 1;
@@ -82,3 +82,24 @@ public int lengthOfLIS(int[] nums) {
         return len;
 
     }
+//using binary search
+public static int longestIncreasingSubsequence(int arr[]) {
+		//Your code goes here
+		List<Integer> temp = new ArrayList<>();
+		int len = 1; temp.add(arr[0]);
+		for(int i = 1; i < arr.length; i++){
+			if(arr[i] > temp.get(temp.size() - 1)){
+				temp.add(arr[i]);
+				len++;
+			}
+			else{
+				int idx = Collections.binarySearch(temp, arr[i]);
+				if(idx < 0){
+					idx = -idx - 1;
+				}
+				temp.set(idx, arr[i]);
+			}
+		}
+		return len;
+	}
+
