@@ -1,0 +1,51 @@
+  public int maxSumAfterPartitioning(int[] arr, int k) {
+        return recursion(arr, k, 0);
+    }
+    public int recursion(int [] arr, int k, int idx){
+        if(idx == arr.length){
+            return 0;
+        } int maxi = Integer.MIN_VALUE; int max_val = arr[idx];
+        int len = 0;
+        for(int i = idx; i < idx + k && i < arr.length; i++){
+            max_val = Math.max(max_val, arr[i]);
+            len++;
+            maxi = Math.max(maxi, recursion(arr, k, i + 1) + max_val*(len));
+        }
+        return maxi;
+    }
+//memoization
+   public int maxSumAfterPartitioning(int[] arr, int k) {
+        int [] dp = new int[arr.length];
+        Arrays.fill(dp, -1);
+        return recursion(dp, arr, k, 0);
+    }
+    public int recursion(int [] dp, int [] arr, int k, int idx){
+        if(idx == arr.length){
+            return 0;
+        }
+        if(dp[idx] != -1){
+            return dp[idx];
+        } 
+        int maxi = Integer.MIN_VALUE; int max_val = arr[idx];
+        int len = 0;
+        for(int i = idx; i < idx + k && i < arr.length; i++){
+            max_val = Math.max(max_val, arr[i]);
+            len++;
+            maxi = Math.max(maxi, recursion(dp, arr, k, i + 1) + max_val*(len));
+        }
+        return dp[idx] = maxi;
+    }
+//tabulation
+ public int maxSumAfterPartitioning(int[] arr, int k) {
+        int [] dp = new int[arr.length + 1];
+        for(int idx = arr.length - 1; idx >= 0; idx--){
+            int maxi = Integer.MIN_VALUE; int max_val = arr[idx]; int len = 0;
+            for(int i = idx; i < idx + k && i < arr.length; i++){
+                max_val = Math.max(max_val, arr[i]);
+                len++;
+                maxi = Math.max(maxi, dp[i+1] + max_val*(len));
+            }
+            dp[idx] = maxi;
+        }
+        return dp[0];
+    }
