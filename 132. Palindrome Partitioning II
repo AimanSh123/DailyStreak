@@ -88,3 +88,32 @@
         }
         return true;
     }
+//most optimal approach
+ public int minCut(String s) {
+        int [] cut = new int[s.length() + 1];
+        boolean [][] dp = new boolean[s.length()][s.length()];
+        for(int gap = 0; gap < s.length(); gap++){
+           for(int i = 0, j = gap; i < s.length() && j < s.length(); i++, j++){
+                if(gap == 0){
+                   dp[i][j] = true;
+                }
+                else if(gap == 1 && s.charAt(i) == s.charAt(j)){
+                    dp[i][j] = true;
+                }
+                else if(s.charAt(i) == s.charAt(j) && dp[i+1][j-1]){
+                     dp[i][j] = true;
+                }
+           }
+        }
+        for(int idx = s.length() - 1; idx >= 0; idx--){
+            int minCost = Integer.MAX_VALUE; 
+            for(int i = idx; i < s.length(); i++){
+                if(dp[idx][i]){
+                    int cost = 1 + cut[i+1];
+                    minCost = Math.min(minCost, cost);
+                }
+            }
+            cut[idx] = minCost;
+        }
+        return cut[0] - 1;   
+    }
