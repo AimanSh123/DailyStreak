@@ -1,0 +1,68 @@
+//memoization
+ public int cherryPickup(int[][] grid) {
+        int n = grid[0].length;
+        int [][][] dp = new int[grid.length][n][n];
+        for(int i = 0; i < dp.length; i++){
+            for(int j = 0; j < dp[0].length; j++){
+                Arrays.fill(dp[i][j],-1);
+            }
+        }
+        return recursion(dp, grid, 0, 0, n - 1);
+    }
+    public int recursion(int [][][]dp, int [][] grid, int i, int j1, int j2){
+        if(j1 < 0 || j2 < 0 || j2 == grid[0].length || j1 == grid[0].length){
+              return Integer.MIN_VALUE;  
+        }
+        if(i == grid.length){
+            return 0;
+        } 
+        if(dp[i][j1][j2]!=-1){
+            return dp[i][j1][j2];
+        }
+        int maxiCost = grid[i][j1];
+        if(j1 != j2){
+            maxiCost += grid[i][j2];
+        } int cost = 0;
+        for(int col1 = -1; col1 <= 1; col1++){
+          for(int col2 = -1; col2 <= 1; col2++){
+            cost = Math.max(recursion(dp,grid, i + 1, j1 + col1, j2 + col2), cost);     
+          }
+        }
+        return dp[i][j1][j2] = cost + maxiCost;
+    }
+//tabulation
+public int cherryPickup(int[][] grid) {
+        int n = grid[0].length;
+        int [][][] dp = new int[grid.length][n][n];
+        for (int j1 = 0; j1 < n; j1++) {
+          for (int j2 = 0; j2 < n; j2++) {
+            if (j1 == j2)
+             dp[dp.length - 1][j1][j2] = grid[dp.length - 1][j1];
+            else
+              dp[dp.length - 1][j1][j2] = grid[dp.length - 1][j1] + grid[dp.length - 1][j2];
+           }
+        }
+        for(int i = dp.length - 2; i >= 0; i--){
+            for(int j1 = 0; j1 < n; j1++){
+                for(int j2 = 0; j2 < n; j2++){
+                    int maxiCost = grid[i][j1];
+                    if(j1 != j2){
+                        maxiCost += grid[i][j2];
+                    } int cost = 0;
+                    for(int col1 = -1; col1 <= 1; col1++){
+                       for(int col2 = -1; col2 <= 1; col2++){
+                           if(j1+col1<0 || j2+col2<0 || j1+col1>=n || j2+col2>=n){
+                              cost = Math.max(Integer.MIN_VALUE, cost);  
+                           }   
+                           else{
+                               cost = Math.max(cost, dp[i+1][j1+col1][j2+col2]);
+                           }
+                        }
+                    }
+                    dp[i][j1][j2] = cost + maxiCost;         
+                }
+            }
+        } 
+        return dp[0][0][n-1];
+    }
+  
