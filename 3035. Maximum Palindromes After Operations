@@ -1,0 +1,33 @@
+  public int maxPalindromesAfterOperations(String[] words) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        for(String word: words){
+            for(int i = 0; i < word.length(); i++){
+              map.put(word.charAt(i), map.getOrDefault(word.charAt(i),0)+1);
+            }
+            list.add(word.length());
+        }
+        Collections.sort(list);
+        int odd = 0; int even = 0;
+        for(Map.Entry<Character, Integer> entry: map.entrySet()){
+            odd += entry.getValue()%2;
+            even += entry.getValue()/2;
+        }int count = 0;
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i) % 2 == 1){
+                if(odd > 0){
+                    odd--;
+                }
+                else{
+                    even--;
+                    odd++;
+                }
+            }
+            if(even < list.get(i)/2){
+                break;
+            }
+            even -= list.get(i)/2;
+            count++;
+        }
+        return count;
+    }
