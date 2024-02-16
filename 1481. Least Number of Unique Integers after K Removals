@@ -1,0 +1,13 @@
+   public int findLeastNumOfUniqueInts(int[] arr, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int it : arr){
+            map.put(it, map.getOrDefault(it, 0) + 1);
+        }
+        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>((a,b)->(a.getValue() -b.getValue()));
+        pq.addAll(map.entrySet());
+        while(k > 0 && k >= pq.peek().getValue()){
+            Map.Entry<Integer, Integer> entry = pq.remove();
+            k -= entry.getValue();
+        }
+        return pq.size();        
+    }
