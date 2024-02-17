@@ -1,0 +1,35 @@
+  public String reorganizeString(String s) {
+        int n = s.length();
+        int [] freq = new int[26];
+        for(int i = 0; i < s.length(); i++){
+            freq[s.charAt(i) - 'a'] ++;
+        }
+        int maxi = 0; char ch = 'a';
+        for(int i = 0; i < freq.length; i++){
+            if(maxi < freq[i]){
+                maxi = freq[i];
+                ch = (char)('a' + i);
+            }
+        }
+        if(maxi > (n+1)/2){
+            return "";
+        }
+        char [] res = new char[n]; int idx = 0;
+        while(maxi > 0){
+            res[idx] = ch; idx += 2;
+            maxi--;
+        }
+        freq[ch - 'a'] = 0;
+        for(int i = 0; i < freq.length; i++){
+            while(freq[i] > 0){
+                if(idx >= n){
+                    idx = 1;
+                }
+                res[idx] = (char)(i + 'a');
+                idx += 2;
+                freq[i] --;
+            }
+        }
+        return String.valueOf(res);
+        
+    }
