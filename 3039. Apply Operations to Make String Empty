@@ -1,0 +1,36 @@
+ public String lastNonEmptyString(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        int maxi = 0;
+        for(int i = 0; i < s.length(); i++){
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i),0)+1);
+            if(map.get(s.charAt(i)) > maxi){
+                maxi = map.get(s.charAt(i));
+            }
+        }
+        HashSet<Character> set = new HashSet<>();
+        for(Map.Entry<Character, Integer> entry : map.entrySet()){
+            if(entry.getValue() == maxi){
+              set.add(entry.getKey());
+            }
+        } String sol = "";
+        for(int i = s.length() - 1; i >= 0; i--){
+            if(set.contains(s.charAt(i))){
+                sol = s.charAt(i) + sol;
+                set.remove(s.charAt(i));
+            }
+        }
+        return sol;   
+    }
+//optimal approach
+ public String lastNonEmptyString(String s) {
+        int [] count = new int[26]; int maxi = 0;
+        for(int i = 0; i < s.length(); i++){
+            maxi = Math.max(maxi, ++count[s.charAt(i)-'a']);
+        }String sol = "";
+        for(int i = s.length() - 1; i >= 0; i--){
+            if(maxi == count[s.charAt(i)-'a']--){
+               sol = s.charAt(i) + sol;
+            }
+        }
+        return sol;
+    }
