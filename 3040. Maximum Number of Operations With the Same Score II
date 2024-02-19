@@ -1,0 +1,52 @@
+ public int maxOperations(int[] nums) {
+        if(nums.length == 2){
+            return 1;
+        }int n = nums.length;
+        return Math.max(value(nums, nums[0] + nums[1], 0, n - 1), Math.max(value(nums, nums[0] + nums[n - 1], 0, n - 1),value(nums, nums[n-1] +nums[n-2],0, n-1)));               
+    }
+    public int value(int [] nums,int sum, int left, int right){
+        if(left >= right){
+             return 0; 
+        }
+        int max = 0;
+        if(nums[left] + nums[left + 1] == sum){
+            max = Math.max(1+ value(nums, sum, left + 2, right),max);
+        }
+        if(nums[left] + nums[right] == sum){
+            max = Math.max(1 + value(nums, sum,left+1,right-1), max); 
+        }
+        if(nums[right] + nums[right-1] == sum){
+            max = Math.max(1 + value(nums,sum,left,right-2),max);
+        }         
+        return max;
+    }
+//tabulation
+ public int maxOperations(int[] nums) {
+        if(nums.length == 2){
+            return 1;
+        }int n = nums.length;
+        int [][] dp = new int [n][n];
+        for(int i = 0; i < dp.length; i++){
+            Arrays.fill(dp[i],-1);
+        }
+        return 1 + Math.max(value(dp,nums, nums[0] + nums[1], 2, n - 1), Math.max(value(dp,nums, nums[0] + nums[n - 1], 1, n - 2),value(dp,nums, nums[n-1]+nums[n-2],0, n-3)));               
+    }
+    public int value(int [][]dp,int[]nums,int sum, int left, int right){
+        if(left >= right){
+             return 0; 
+        }
+        if(dp[left][right] != -1){
+            return dp[left][right];
+        }
+        int max = 0;
+        if(nums[left] + nums[left + 1] == sum){
+            max = Math.max(1+ value(dp,nums, sum, left + 2, right),max);
+        }
+        if(nums[left] + nums[right] == sum){
+            max = Math.max(1 + value(dp,nums, sum,left+1,right-1), max); 
+        }
+        if(nums[right] + nums[right-1] == sum){
+            max = Math.max(1 + value(dp,nums,sum,left,right-2),max);
+        }         
+        return dp[left][right] = max;
+    }
