@@ -1,0 +1,56 @@
+   public int maxSelectedElements(int[] nums) {
+        Arrays.sort(nums);
+        return recursion(nums, 0, -1);
+    }
+    public int recursion(int [] nums, int idx, int prev){
+        if(idx == nums.length){
+            return 0;
+        }int count = 0;
+        if(prev == -1){
+            count =1+Math.max(recursion(nums,idx+1,nums[idx]),recursion(nums,idx+1,nums[idx]+1));
+        }
+        else if(nums[idx] == prev|| nums[idx] == prev + 1){
+            count = 1 + recursion(nums,idx+1,(nums[idx]-prev==0?nums[idx]+1:nums[idx]));
+        }
+        int notcount =  recursion(nums, idx + 1, prev);
+        return Math.max(count, notcount);
+    }
+//memoization
+ public int maxSelectedElements(int[] nums) {
+        Arrays.sort(nums);
+        HashMap<String, Integer> map = new HashMap<>();
+        return recursion(map,nums, 0, -1);
+    }
+    public int recursion( HashMap<String, Integer> map,int [] nums, int idx, int prev){
+        if(idx == nums.length){
+            return 0;
+        }
+        String s = prev +"-" +idx;
+        if(map.containsKey(s)){
+            return map.get(s);
+        } 
+        int count = 0;
+        if(prev == -1){
+            count =1+Math.max(recursion(map,nums,idx+1,nums[idx]),recursion(map,nums,idx+1,nums[idx]+1));
+        }
+        else if(nums[idx] == prev|| nums[idx] == prev + 1){
+            count = 1 + recursion(map,nums,idx+1,(nums[idx]-prev==0?nums[idx]+1:nums[idx]));
+        }
+        int notcount =  recursion(map,nums, idx + 1, prev);
+        map.put(s,Math.max(count, notcount));
+        return map.get(s);
+    }
+//optimal approach
+  public int maxSelectedElements(int[] nums) {
+        Arrays.sort(nums);
+        HashMap<Integer, Integer> dp = new HashMap<>();
+        int maxi = 0;
+        for(int idx = 0; idx < nums.length;idx++){
+            int count2 = dp.getOrDefault(nums[idx] - 1, 0) + 1;
+            int count1 = dp.getOrDefault(nums[idx], 0) + 1;
+            dp.put(nums[idx], count2);
+            dp.put(nums[idx] + 1, count1);
+            maxi = Math.max(Math.max(count1, count2), maxi);
+        }
+        return maxi;
+    }
