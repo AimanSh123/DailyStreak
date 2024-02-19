@@ -20,7 +20,7 @@
         }         
         return max;
     }
-//tabulation
+//memoization
  public int maxOperations(int[] nums) {
         if(nums.length == 2){
             return 1;
