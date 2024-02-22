@@ -1,0 +1,22 @@
+ public int longestCommonPrefix(int[] arr1, int[] arr2) {
+        HashSet<String> set = new HashSet<>();
+        for(int i = 0; i < arr1.length; i++){
+            String s = String.valueOf(arr1[i]);
+            String curr = "";
+            for(int j = 0; j < s.length(); j++){
+                curr += s.charAt(j);
+                set.add(curr);
+            }
+        } int maxi = 0;
+        for(int i = 0; i < arr2.length; i++){
+            String s = String.valueOf(arr2[i]);
+            String curr = "";
+            for(int j = 0; j < s.length(); j++){
+                curr += s.charAt(j);
+                if(maxi < curr.length() && set.contains(curr)){
+                    maxi = curr.length();
+                }
+            }
+        }
+        return maxi;
+    }
