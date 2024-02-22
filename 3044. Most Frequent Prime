@@ -1,4 +1,4 @@
- TreeMap<Integer,Integer> map;
+  TreeMap<Integer,Integer> map;
     int [] dx = {1,1,0,-1,-1,-1,0,1};
     int [] dy = {0,1,1,1,0,-1,-1,-1};
     public int mostFrequentPrime(int[][] mat) {
@@ -7,15 +7,8 @@
          for(int i = 0; i < n; i++){
             for(int j = 0; j < m; j++){
                 for(int k = 0; k < 8; k++){
-                    int num = mat[i][j]; int x = i; int y = j;
-                    x += dx[k]; y += dy[k];
-                    while(x >= 0 && y >= 0 && x < n && y < m){
-                        num = num * 10 + mat[x][y];
-                        if(isPrime(num)){
-                          map.put(num,map.getOrDefault(num,0)+1);
-                        }
-                        x += dx[k]; y += dy[k];
-                    }
+                    int x = i; int y = j;
+                    recursion(mat,x,y,k);
                 }
             }
         }int maxi = 0; int num = -1;
@@ -26,6 +19,16 @@
             }
         }
         return num;
+    }
+    public void recursion(int [][] mat, int i, int j, int k){
+        int num = 0;
+        while(i >= 0 && j >= 0 && i < mat.length && j < mat[0].length){
+            num = num * 10 + mat[i][j];
+            if(num > 10 && isPrime(num)){
+                map.put(num,map.getOrDefault(num,0)+1);
+            }
+            i += dx[k]; j += dy[k];
+        }
     }
     public boolean isPrime(int number){
          if (number <= 1) {
