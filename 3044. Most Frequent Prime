@@ -1,0 +1,40 @@
+ TreeMap<Integer,Integer> map;
+    int [] dx = {1,1,0,-1,-1,-1,0,1};
+    int [] dy = {0,1,1,1,0,-1,-1,-1};
+    public int mostFrequentPrime(int[][] mat) {
+        map = new TreeMap<>();
+        int n = mat.length; int m = mat[0].length;
+         for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                for(int k = 0; k < 8; k++){
+                    int num = mat[i][j]; int x = i; int y = j;
+                    x += dx[k]; y += dy[k];
+                    while(x >= 0 && y >= 0 && x < n && y < m){
+                        num = num * 10 + mat[x][y];
+                        if(isPrime(num)){
+                          map.put(num,map.getOrDefault(num,0)+1);
+                        }
+                        x += dx[k]; y += dy[k];
+                    }
+                }
+            }
+        }int maxi = 0; int num = -1;
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
+            if(entry.getValue() >= maxi){
+                maxi = entry.getValue();
+                num = entry.getKey();
+            }
+        }
+        return num;
+    }
+    public boolean isPrime(int number){
+         if (number <= 1) {
+            return false; 
+         }
+         for (int i = 2; i <= Math.sqrt(number); i++) {
+           if (number % i == 0) {
+            return false; 
+          }
+        }
+        return true; 
+    }
