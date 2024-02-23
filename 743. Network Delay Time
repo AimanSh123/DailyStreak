@@ -1,0 +1,36 @@
+ public int networkDelayTime(int[][] times, int n, int k) {
+        List<List<Pair>> graph = new ArrayList<>();
+        for(int i = 0; i <= n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i = 0; i < times.length; i++){
+            graph.get(times[i][0]).add(new Pair(times[i][1],times[i][2]));
+        }
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.wt - b.wt);
+        int [] time = new int[n+1];
+        Arrays.fill(time,Integer.MAX_VALUE);
+        pq.add(new Pair(k,0));
+        time[k] = 0;
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int time_till = p.wt; int dest = p.dst; 
+            for(Pair neigh : graph.get(dest)){
+                if(time[neigh.dst] > time_till + neigh.wt){
+                    pq.add(new Pair(neigh.dst,time_till + neigh.wt));
+                    time[neigh.dst] = time_till + neigh.wt;
+                }
+            }
+        }
+        int maxi = 0; 
+        for (int i = 1; i <= n; i++) {
+            maxi = Math.max(time[i], maxi); 
+        }
+        return maxi == Integer.MAX_VALUE ? -1 : maxi;
+    }
+    class Pair{
+        int dst, wt;
+        Pair(int dst, int wt){
+            this.dst = dst; 
+            this.wt = wt;
+        }
+    }
