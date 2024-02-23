@@ -1,0 +1,71 @@
+//brute force
+  public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<List<Pair>> graph = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i = 0; i < flights.length; i++){
+            graph.get(flights[i][0]).add(new Pair(flights[i][1],flights[i][2]));
+        }
+        return recursion(graph, src, dst, k+1);
+    }
+    public int recursion(List<List<Pair>> graph, int src, int dst, int k){
+        if(src == dst && k >= 0){
+            return 0;
+        }
+        if(k < 0){
+            return -1;
+        }
+        if(src == dst && k != 0){
+            return -1;
+        }
+        int mini = Integer.MAX_VALUE;
+        for(Pair neigh : graph.get(src)){
+            int path = recursion(graph, neigh.dest, dst, k - 1);
+            if(path != -1){
+                mini = Math.min(path+neigh.price,mini);
+            } 
+        }
+        return (mini == Integer.MAX_VALUE) ? -1 : mini;
+    }
+    class Pair{
+        int dest, price;
+        Pair(int dest, int price){
+            this.dest = dest;
+            this.price = price;
+        }
+    }
+//optimal : djkstra
+ public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<List<Pair>> graph = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i = 0; i < flights.length; i++){
+            graph.get(flights[i][0]).add(new Pair(flights[i][1],flights[i][2],0));
+        }
+        int [] prices = new int[n];
+        Arrays.fill(prices, Integer.MAX_VALUE);
+        Queue<Pair> pq = new ArrayDeque<>();
+        pq.add(new Pair(src,0,0));
+        while(!pq.isEmpty()){
+           Pair p = pq.remove();
+           int price_till = p.price;
+           int node = p.dest; int stop = p.stops;
+           for(Pair neigh : graph.get(node)){
+               if(stop <= k && prices[neigh.dest] > neigh.price + price_till){
+                   prices[neigh.dest] = neigh.price + price_till;
+                   pq.add(new Pair(neigh.dest,neigh.price + price_till,stop+1));
+               }
+           } 
+        }
+        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
+    }
+    class Pair{
+        int dest, price, stops;
+        Pair(int dest, int price, int stops){
+            this.dest = dest;
+            this.price = price;
+            this.stops = stops;
+        }
+    }
