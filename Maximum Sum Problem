@@ -1,0 +1,11 @@
+public int maxSum(int n) 
+    { 
+        //code here.
+        return recursion(n);
+    } 
+    public int recursion(int n){
+        if(n /2 + n /3 + n / 4 <= n){
+            return n;
+        }
+        return recursion(n/2) + recursion(n/3) + recursion(n/4);
+    }
