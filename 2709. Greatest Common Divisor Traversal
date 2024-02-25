@@ -1,14 +1,12 @@
- int count = 0;
+  int count = 0;
     public boolean canTraverseAllPairs(int[] nums) {
         int n = nums.length;
-        List<List<Integer>> list = new ArrayList<>();
-        for(int i = 0; i < n; i++){
-            list.add(getFactors(nums[i]));
-        }
         //lets make the reverse map
+        List<List<Integer>> graph = new ArrayList<>();
         HashMap<Integer, HashSet<Integer>> reverse_map = new HashMap<>();
         for(int i = 0; i < n; i++){
-            for(int el : list.get(i)){
+            graph.add(new ArrayList<>());
+            for(int el : getFactors(nums[i]){
                 if(!reverse_map.containsKey(el)){
                     HashSet<Integer> set = new HashSet<>();
                     reverse_map.put(el, set);
@@ -16,10 +14,6 @@
                 reverse_map.get(el).add(i);
             }
         }
-        List<List<Integer>> graph = new ArrayList<>();
-        for(int i=0;i<n;i++){
-            graph.add(new ArrayList<>());
-        }   
         for(HashSet<Integer>tempSet:reverse_map.values()){
             List<Integer> temp = new ArrayList<>(tempSet);
             for(int i=1;i<temp.size();i++){
