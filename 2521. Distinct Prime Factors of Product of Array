@@ -1,0 +1,18 @@
+  public int distinctPrimeFactors(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            int n = nums[i];
+            for(int j = 2; j * j <= n; j++){
+                if(n % j == 0){
+                    set.add(j);
+                    while(n % j == 0){
+                        n /= j;
+                    }
+                }
+            }
+            if(n > 1){
+                set.add(n);
+            }
+        }
+        return set.size();
+    }
