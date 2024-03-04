@@ -1,0 +1,20 @@
+  public int bagOfTokensScore(int[] tokens, int power) {
+        Arrays.sort(tokens); int score = 0;
+        int left = 0; int right = tokens.length - 1;
+        int maxi = 0;
+        while(left <= right){
+            if(power >= tokens[left]){
+                power -= tokens[left];
+                left++; score ++;
+                maxi = Math.max(maxi, score);
+            }
+            else if(score >= 1){
+                power += tokens[right]; right --;
+                score --;
+            }
+            else{
+                break;
+            }
+        }
+        return maxi;
+    }
