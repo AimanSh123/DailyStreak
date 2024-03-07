@@ -1,0 +1,51 @@
+ public int orangesRotting(int[][] grid) {
+        //bfs
+        Queue<Pair> q = new ArrayDeque<>();
+        int [] dx = {-1,0,1,0}; int [] dy = {0,-1,0,1};
+        int m = grid.length; int n = grid[0].length;
+          if(m == 1 && n == 1){
+            if(grid[0][0] == 1){
+                return -1;
+            }
+            return 0;
+        } int tot = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 2){
+                    q.add(new Pair(i,j));
+                }
+                if(grid[i][j] != 0){
+                    tot ++;
+                }
+            }
+        } int count = 0; int ans = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            count+= size;
+            for(int i = 0; i < size; i++){
+                Pair p = q.remove();
+                for(int j = 0; j < 4; j++){
+                  int curr_row = p.row + dx[j];
+                  int curr_col = p.col + dy[j];
+                  if(curr_row >= 0 && curr_row < m && curr_col >= 0 && curr_col < n && grid[curr_row][curr_col] == 1){
+                      grid[curr_row][curr_col] = 2;
+                      q.add(new Pair(curr_row, curr_col));
+                  }  
+                }
+            }
+            if(!q.isEmpty()){
+               ans++;
+            }
+        }
+        if(tot == count){
+            return ans;
+        }
+        return -1;
+    }
+    class Pair{
+        int row; int col;
+        Pair(int row, int col){
+            this.row = row; 
+            this.col = col;
+        }
+    }
