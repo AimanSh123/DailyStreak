@@ -1,0 +1,25 @@
+ public String customSortString(String order, String s) {
+        String sol = "";
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < s.length(); i++){
+            map.put(s.charAt(i),map.getOrDefault(s.charAt(i),0)+1);
+        }    
+        for(int i = 0; i < order.length(); i++){
+            if(map.containsKey(order.charAt(i))){
+                int k = map.get(order.charAt(i));
+                while(k != 0){
+                    sol += order.charAt(i);
+                    k--;
+                }
+                map.remove(order.charAt(i));
+            }
+        }
+        for(Map.Entry<Character, Integer> entry : map.entrySet()){
+               int k = entry.getValue();
+                while(k != 0){
+                    sol += entry.getKey();
+                    k--;
+                }
+        }
+        return sol;
+    }
