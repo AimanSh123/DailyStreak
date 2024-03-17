@@ -1,0 +1,20 @@
+public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        int n1 = firstList.length; int n2 = secondList.length;
+        int lft1 = 0, lft2 = 0;
+        List<int []> result = new ArrayList<>();
+        while(lft1 < n1 && lft2 < n2){
+            if(firstList[lft1][0] <= secondList[lft2][1] && secondList[lft2][0] <= firstList[lft1][1]){
+                int start = Math.max(firstList[lft1][0],secondList[lft2][0]);
+                int end = Math.min(firstList[lft1][1],secondList[lft2][1]);
+                int [] temp = {start, end};
+                result.add(temp);
+            }
+            if(firstList[lft1][1] < secondList[lft2][1]){
+                lft1++;
+            }
+            else{
+                lft2++;
+            }
+        }
+        return result.toArray(new int[result.size()][]);
+    }
