@@ -1,0 +1,17 @@
+ public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
+        int left = 0; int right = 1; int n = intervals.length;
+        int count = 0;
+        while(right < n){
+            if(intervals[left][1] <= intervals[right][0]){
+                left = right; right++;
+            }
+            else if(intervals[left][1] <= intervals[right][1]){
+                right++; count++;
+            }
+            else{
+                count ++; left = right; right++;
+            }      
+        }
+        return count;
+    }
