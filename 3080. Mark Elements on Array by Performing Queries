@@ -1,0 +1,34 @@
+ public long[] unmarkedSumArray(int[] nums, int[][] queries) {
+        long sum = 0; int n = nums.length; int m = queries.length;
+        PriorityQueue<int []> pq = new PriorityQueue<>((a,b)->{
+            if(a[0]-b[0] == 0){
+                return a[1]-b[1];
+            }
+            return a[0]-b[0];
+        });
+        for(int i = 0; i < n; i++){
+            pq.add(new int[]{nums[i],i});
+            sum += nums[i];
+        }
+        long [] sol = new long[m];
+        boolean [] visited = new boolean[n];   
+        for(int i = 0; i < m; i++){
+            if(!visited[queries[i][0]]){
+                sum -= nums[queries[i][0]];
+                visited[queries[i][0]] = true;
+            } int count = queries[i][1];
+            while(!pq.isEmpty() && count != 0){
+                int [] p = pq.remove();
+                int value = p[0]; int idx = p[1];
+                if(!visited[idx]){
+                    sum -= value; visited[idx] = true;
+                    count--;
+                }    
+            }
+            sol[i] = sum;
+            if(sol[i] < 0){
+              sol[i] = 0;
+            }
+        }
+        return sol;  
+    }  
