@@ -1,18 +1,12 @@
- public int leastInterval(char[] tasks, int n) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(char ch : tasks){
-            map.put(ch, map.getOrDefault(ch, 0) + 1);
-        }int max_occ = 0; char max_ch = 'a';
-        for(Map.Entry<Character, Integer> entry: map.entrySet()){
-            if(max_occ < entry.getValue()){
-               max_occ = Math.max(entry.getValue(), max_occ);
-               max_ch = entry.getKey();
-            }
+  public int leastInterval(char[] tasks, int n) {
+        int [] freq = new int[26];
+        for(char ch: tasks){
+           freq[ch - 'A']++;
         }
-        int ideal = (max_occ - 1) * n;
-        map.remove(max_ch);
-        for(Map.Entry<Character, Integer> entry: map.entrySet()){
-            ideal -= Math.min(max_occ - 1, entry.getValue());
+        Arrays.sort(freq);
+        int max = freq[25]; int ideal = (max - 1)*n;
+        for(int i = 24; i >= 0; i--){
+            ideal -= Math.min(max - 1, freq[i]); 
         }
-        return tasks.length + Math.max(0, ideal);    
+        return ideal < 0 ? tasks.length : tasks.length + ideal;
     }
