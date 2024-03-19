@@ -1,0 +1,47 @@
+ public int ss; public int cnt;
+    public int[] countPairsOfConnectableServers(int[][] edges, int signalSpeed) {
+        ArrayList<ArrayList<Pair>> graph = new ArrayList<>();
+        int n = edges.length + 1;
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        } ss = signalSpeed;
+        for(int [] edge : edges){
+           int u = edge[0]; int v = edge[1]; int wt = edge[2];
+            graph.get(u).add(new Pair(v,wt));
+            graph.get(v).add(new Pair(u,wt));            
+        }
+        int [] count = new int[n];
+        for(int i = 0; i < n; i++){
+            int sum = 0;
+            ArrayList<Integer> temp = new ArrayList<>();
+            for(Pair neigh: graph.get(i)){
+                int node = neigh.node; int wt = neigh.wt;
+                cnt = 0;
+                dfs(graph, node, i, wt);
+                sum += cnt;
+                temp.add(cnt); 
+            } int ans=  0;
+            for(int el : temp){
+                ans += (sum - el) * el;
+            }
+            count[i] = ans/2;
+        }
+        return count;
+    }
+    public void dfs(ArrayList<ArrayList<Pair>> graph, int u, int par, int wt){
+          if(wt % ss == 0){
+            cnt++;
+          }
+          for(Pair neigh: graph.get(u)){
+            if(neigh.node != par){
+                dfs(graph, neigh.node, u, wt + neigh.wt);
+            }
+          }
+    }
+    class Pair{
+        int node; int wt;
+        Pair(int node, int wt){
+            this.node = node; 
+            this.wt = wt;
+        }
+    }
