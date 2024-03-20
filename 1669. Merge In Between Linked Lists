@@ -1,0 +1,20 @@
+public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        ListNode curr1 = list1; ListNode curr2 = list2; int idx = 0;
+        ListNode dummy = new ListNode(-1); dummy.next = list1;
+        ListNode prev = dummy;
+        while(idx != a){
+            prev = curr1;
+            curr1 = curr1.next;
+            idx++;          
+        }
+        prev.next = list2;
+        while(idx != b){
+            curr1 = curr1.next;
+            idx++;
+        }
+        while(curr2.next != null){
+            curr2 = curr2.next;
+        }
+        curr2.next = curr1.next;
+        return dummy.next; 
+    }
