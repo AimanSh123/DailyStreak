@@ -1,0 +1,42 @@
+ public int []dx={1,-1,0,0};
+    public int []dy={0,0,1,-1};
+    public class Pair{
+        int first;int second;
+        Pair(int first,int second){
+            this.first=first;this.second=second;
+        }
+    }
+    public int numEnclaves(int[][] grid) {
+        //bfs se karte he
+        int m=grid.length;int n=grid[0].length;
+        boolean[][]visited=new boolean[m][n];
+        Queue<Pair>q=new ArrayDeque<>();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1 && (i==0||j==0||i==m-1||j==n-1)){
+                    q.add(new Pair(i,j));
+                    visited[i][j]=true;
+                }
+            }
+        }
+        while(!q.isEmpty()){
+            int row=q.peek().first; int col=q.peek().second;
+            q.remove();
+            for(int i=0;i<4;i++){
+                int nrow=row+dx[i];int ncol=col+dy[i];
+                if(nrow>=0 && ncol>=0 && nrow<m && ncol<n && !visited[nrow][ncol] && grid[nrow][ncol]==1){
+                    q.add(new Pair(nrow,ncol));
+                    visited[nrow][ncol] = true;
+                }
+            }
+        }
+        int count=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1 && !visited[i][j]){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
