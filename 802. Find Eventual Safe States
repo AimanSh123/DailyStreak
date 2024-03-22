@@ -1,0 +1,35 @@
+ public List<Integer> eventualSafeNodes(int[][] graph) {
+        //nodes which are not in cycle are safe nodes
+        //lets do it using dfs
+        boolean[]visited=new boolean[graph.length];
+        boolean[]path=new boolean[graph.length];
+        boolean[]check=new boolean[graph.length];
+        for(int i=0;i<graph.length;i++){
+            if(!visited[i]){
+                dfs(i,visited,path,check,graph);
+            }
+        }List<Integer>sol=new ArrayList<>();
+        for(int i=0;i<graph.length;i++){ 
+            if(check[i]){
+                sol.add(i);
+            }
+        }
+        return sol;
+    }
+    public boolean dfs(int node,boolean[]visited,boolean[]path,boolean[]check,int[][]graph){
+        visited[node]=true;path[node]=true;
+        for(int neigh:graph[node]){
+            if(!visited[neigh]){
+                if(dfs(neigh,visited,path,check,graph)){
+                    check[node]=false; 
+                    return true;
+                }
+            }
+            else if(path[neigh]){
+                check[node]=false;
+                return true;
+            }
+        }
+        check[node]=true;path[node]=false;
+        return false;
+    }
