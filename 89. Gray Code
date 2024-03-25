@@ -1,0 +1,33 @@
+  public List<Integer> grayCode(int n) {
+        //lets do it with recursion
+        List<String> result = recursion(n);
+        List<Integer> sol = new ArrayList<>();
+        for(String s : result){
+            int len = s.length(); int num = 0;
+            System.out.println(s);
+            for(int i = 0; i < len; i++){
+                char ch = s.charAt(i);
+                if(ch == '1'){
+                    num += Math.pow(2,len-i-1);
+                }
+            }
+            sol.add(num);
+        }
+        return sol;
+    }
+    public List<String> recursion(int n){
+        if(n == 1){
+            List<String> list = new ArrayList<>();
+            list.add("0"); list.add("1");
+            return list;
+        }
+        List<String> temp = recursion(n-1);
+        List<String> result = new ArrayList<>();
+        for(int i = 0; i < temp.size(); i++){
+            result.add('0' + temp.get(i));
+        }
+        for(int i = temp.size() - 1; i >= 0; i--){
+            result.add('1' + temp.get(i));
+        }
+        return result;
+    } 
