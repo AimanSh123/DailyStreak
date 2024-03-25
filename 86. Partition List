@@ -1,0 +1,20 @@
+ public ListNode partition(ListNode head, int x) {
+        ListNode dummy = new ListNode(); ListNode curr = head;
+        ListNode prev = dummy; ListNode prevNext = new ListNode(-1);
+        ListNode greater = prevNext;
+        while(curr != null){
+            ListNode temp = curr.next;
+            if(curr.val < x){
+                prev.next = curr;
+                prev = prev.next;
+            }
+            else{
+                prevNext.next = curr;
+                prevNext = curr;
+            }
+            curr = temp;
+        }
+        prevNext.next = null; prev.next = null;
+        prev.next = greater.next;
+        return dummy.next;
+    }
