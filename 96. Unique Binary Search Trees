@@ -1,0 +1,41 @@
+//recursion
+public int numTrees(int n) {
+        if(n <= 1){
+            return 1;
+        }
+        int total = 0;
+        for(int i = 1; i <= n; i++){
+           total += (numTrees(i - 1) * numTrees(n - i));
+        }
+        return total;
+}
+//memoization
+  public int numTrees(int n) {
+        int [] dp = new int[n+1];
+        Arrays.fill(dp,-1);
+        return solve(dp,n);
+    }
+    public int solve(int [] dp, int n){
+        if(n <= 1){
+            return 1;
+        }
+        if(dp[n] != -1){
+            return dp[n];
+        }
+        int total = 0;
+        for(int i = 1; i <= n; i++){
+            total += (solve(dp, i-1)*solve(dp, n-i));
+        }
+        return dp[n] = total;
+    }
+//tabulation
+public int numTrees(int n) {
+        int [] dp = new int[n+1];
+        dp[0] = 1; dp[1] = 1;
+        for(int i = 2; i <= n; i++){
+            for(int j = 1; j <= i; j++){
+               dp[i] += (dp[j-1]*dp[i-j]);
+            }   
+        }
+        return dp[n];
+    }
