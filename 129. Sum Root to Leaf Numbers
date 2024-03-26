@@ -1,0 +1,21 @@
+   public int sumNumbers(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        int total = 0;
+        recursion(list, root, 0);
+        for(int it : list){
+            total += it;
+        }
+        return total;
+    }
+    public void recursion(List<Integer> list, TreeNode root, int sum){
+        if(root == null){
+            return;
+        }
+        sum = sum * 10 + root.val;
+        if(root.left == null && root.right == null){
+            list.add(sum);
+            return;
+        }
+        recursion(list,root.left,sum);
+        recursion(list,root.right,sum);
+    }
