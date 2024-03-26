@@ -1,0 +1,58 @@
+//recursion
+ public List<TreeNode> generateTrees(int n) {
+       return helper(1, n); 
+    }
+    public List<TreeNode> helper(int st, int ed){
+        List<TreeNode> trees = new ArrayList<>();
+        if(st > ed){
+            trees.add(null);
+            return trees;
+        }
+        for(int i = st; i <= ed; i++){
+            List<TreeNode> left = helper(st, i - 1);
+            List<TreeNode> right = helper(i + 1, ed);
+            for(TreeNode l : left){
+                for(TreeNode r : right){
+                    TreeNode root = new TreeNode(i,l,r);
+                    trees.add(root);
+                }
+            }
+        }
+        return trees;
+    }
+//memoization
+  HashMap<Pair,List<TreeNode>> dp; 
+    public List<TreeNode> generateTrees(int n) {
+       dp = new HashMap<>();
+       return helper(1, n); 
+    }
+    public List<TreeNode> helper(int st, int ed){
+        List<TreeNode> trees = new ArrayList<>();
+        if(st > ed){
+            trees.add(null);
+            return trees;
+        }
+        Pair p = new Pair(st,ed);
+        if(dp.containsKey(p)){
+            return dp.get(p);
+        }
+        for(int i = st; i <= ed; i++){
+            List<TreeNode> left = helper(st, i - 1);
+            List<TreeNode> right = helper(i + 1, ed);
+            for(TreeNode l : left){
+                for(TreeNode r : right){
+                    TreeNode root = new TreeNode(i,l,r);
+                    trees.add(root);
+                }
+            }
+        }
+        dp.put(p,trees);
+        return trees;
+    }
+    class Pair{
+        int st, ed;
+        Pair(int st, int ed){
+            this.st = st;
+            this.ed = ed;
+        }
+    }
