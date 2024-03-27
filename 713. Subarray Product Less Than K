@@ -1,0 +1,17 @@
+  public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int count = 0; int i = 0; int j = 0;
+        int mult = 1;
+        if(k <= 1){
+            return 0;
+        }
+        while(j < nums.length){
+            mult *= nums[j];
+            while(i < nums.length && mult >= k){
+               mult /= nums[i];
+               i++;
+            }    
+            count+= (j-i)+1;
+            j++;
+        }
+        return count;
+    }
