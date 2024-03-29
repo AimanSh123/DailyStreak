@@ -1,0 +1,79 @@
+//memoization
+public int longestStrChain(String[] words) {
+        Arrays.sort(words,(a,b)->a.length()-b.length());
+        int[][]dp = new int[words.length][words.length+1];
+        for(int []it:dp){
+            Arrays.fill(it,-1);
+        }
+        return recursion(dp,words,0,-1);
+    }
+    public int recursion(int[][]dp,String[]words,int idx,int prev){
+        if(idx == words.length){
+            return 0;
+        }
+        if(dp[idx][prev+1] != -1){
+            return dp[idx][prev+1];
+        }
+        int maxi = 0;
+        if(prev == -1 || check(words[idx],words[prev])){
+           maxi = recursion(dp,words,idx+1,idx) + 1;
+        }
+        maxi = Math.max(recursion(dp,words,idx+1,prev),maxi);
+        return dp[idx][prev+1] = maxi;
+    }
+    public static boolean check(String wordA, String wordB) {
+        if (wordA.length() != wordB.length() + 1) {
+            return false;
+        }
+        int i = 0, j = 0;
+        boolean foundDifference = false;
+        while (i < wordA.length() && j < wordB.length()) {
+            if (wordA.charAt(i) == wordB.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                if (foundDifference) {
+                    return false;
+                }
+                foundDifference = true;
+                i++; // Skip the differing character in wordA
+            }
+        }
+        return true;
+    }
+//tabulation
+ public int longestStrChain(String[] words) {
+        Arrays.sort(words, (a, b) -> a.length() - b.length());
+        int[][] dp = new int[words.length+1][words.length + 1];
+        for (int idx = words.length - 1; idx >= 0; idx--) {
+            for (int prev = -1; prev <= idx; prev++) {
+                int maxi = 0;
+                if (prev == -1 || check(words[idx], words[prev])) {
+                    maxi = dp[idx+1][idx+1] + 1;
+                }
+                maxi = Math.max(dp[idx+1][prev+1], maxi);
+                dp[idx][prev + 1] = maxi;
+            }
+        }
+        return dp[0][0];
+    }
+    public static boolean check(String wordA, String wordB) {
+        if (wordA.length() != wordB.length() + 1) {
+            return false;
+        }
+        int i = 0, j = 0;
+        boolean foundDifference = false;
+        while (i < wordA.length() && j < wordB.length()) {
+            if (wordA.charAt(i) == wordB.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                if (foundDifference) {
+                    return false;
+                }
+                foundDifference = true;
+                i++; // Skip the differing character in wordA
+            }
+        }
+        return true;
+    }
