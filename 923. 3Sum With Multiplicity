@@ -1,0 +1,66 @@
+//map : big test cases fail
+  public int MOD = 1000000007;
+    public int threeSumMulti(int[] arr, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int it : arr) {
+            map.put(it, map.getOrDefault(it, 0) + 1);
+        }
+        int sol = 0;
+        for (Map.Entry<Integer, Integer> entry1 : map.entrySet()) {
+            for (Map.Entry<Integer, Integer> entry2 : map.entrySet()) {
+                int a = entry1.getKey();
+                int b = entry2.getKey();
+                int c = target - a - b;
+                if (!map.containsKey(c))
+                    continue;
+                int i = entry1.getValue();
+                int j = entry2.getValue();
+                int k = map.get(c);
+                if (a == b && b == c) {
+                    sol = (sol + ((i % MOD) * (i - 1) * (i - 2) / 6) % MOD) % MOD;
+                } else if (a == b && b != c) {
+                    sol = (sol + ((i % MOD) * (i - 1) / 2) % MOD * (k % MOD)) % MOD;
+                } else if (a < b && b < c) {
+                    sol = (sol + ((i % MOD) * (j % MOD) * (k % MOD)) % MOD) % MOD;
+                }
+            }
+        }
+
+        return (sol );
+    }
+//alternate approach
+  public int MOD = 1000000007;
+    public int threeSumMulti(int[] arr, int target) {
+        Arrays.sort(arr); long ans = 0;
+        int n = arr.length;
+        for (int i = 0; i < n - 2; i++) {
+            int l = i + 1;
+            int r = n - 1;
+            int sum = target - arr[i];
+            while (l < r) {
+                if (sum < arr[l] + arr[r]) {
+                    r--;
+                }
+                else if(sum > arr[l] + arr[r]){
+                    l++;
+                }
+                else{
+                    int c1 = 1; int c2 = 1;
+                    if(arr[l] == arr[r]){
+                        int len = r - l + 1;
+                        ans += (len)*(len-1)/2;
+                        break;
+                    }
+                    while(l < r && arr[l] == arr[l+1]){
+                        c1++; l++;
+                    }
+                    while(l < r && arr[r] == arr[r-1]){
+                        c2++; r--;
+                    }
+                    ans += (c1*c2);
+                    l++; r--;
+                }
+            }
+        }
+        return (int) (ans % MOD);
+    }
