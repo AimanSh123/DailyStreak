@@ -1,0 +1,17 @@
+   public int strStr(String haystack, String needle) {
+        if(haystack.length() < needle.length()){
+            return -1;
+        }
+        int i = 0; int j = 0;
+        while(j < haystack.length()){
+            i = 0;
+            while(i + j < haystack.length() && i < needle.length() && haystack.charAt(i+j) == needle.charAt(i)){
+                i++;
+            }
+            if(i == needle.length()){
+                return j;
+            }
+            j++;
+        }
+        return -1;
+    }
