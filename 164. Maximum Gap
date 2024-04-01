@@ -1,0 +1,46 @@
+//using sorting
+  public int maximumGap(int[] nums) {
+        if(nums.length == 1){
+            return 0;
+        }
+        Arrays.sort(nums);
+        int maxi = 0;
+        for(int i = 1; i < nums.length; i++){
+            maxi = Math.max(nums[i] - nums[i-1],maxi);
+        }
+        return maxi;
+    }
+//optimal approach: pigeonhole principle
+  public int maximumGap(int[] nums) {
+        if(nums.length == 1){
+            return 0;
+        }
+        int max = Integer.MIN_VALUE; int min = Integer.MAX_VALUE;
+        int gap = 0; int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            max = Math.max(nums[i], max);
+            min = Math.min(nums[i], min);
+        }
+        int bucketSize = (int)Math.ceil((double)(max - min)/(n-1));
+        int [] minBucket = new int[n-1];
+        int [] maxBucket = new int[n-1];
+        Arrays.fill(minBucket, Integer.MAX_VALUE);
+        Arrays.fill(maxBucket, Integer.MIN_VALUE);
+        for(int i = 0; i < n; i++){
+            if(nums[i] == min || nums[i] == max){
+                continue;
+            }
+            int bucketIndex = (nums[i]-min)/bucketSize;
+            minBucket[bucketIndex] = Math.min(minBucket[bucketIndex],nums[i]);
+            maxBucket[bucketIndex] = Math.max(maxBucket[bucketIndex],nums[i]);
+        }
+        for(int i = 0; i < n - 1; i++){
+            if(minBucket[i] == Integer.MAX_VALUE){
+                continue;
+            }
+            gap = Math.max(gap, minBucket[i] - min);
+            min = maxBucket[i];
+        }
+        gap = Math.max(gap, max-min);
+        return gap;
+    }
