@@ -1,0 +1,62 @@
+//brute force
+public int idx = 0;
+    public void recoverTree(TreeNode root) {
+        //brute force
+        List<Integer> inorder = new ArrayList<>();
+        inOrder(root, inorder);
+        Collections.sort(inorder);
+        traverse(root, inorder);
+    }
+    public void traverse(TreeNode root, List<Integer> list){
+        if(root == null){
+            return ;
+        }
+        traverse(root.left,list);
+        root.val = list.get(idx);
+        idx++;
+        traverse(root.right,list);
+    }
+    public void inOrder(TreeNode root,List<Integer> inorder){
+        if(root == null){
+            return;
+        }
+        inOrder(root.left, inorder);
+        inorder.add(root.val);
+        inOrder(root.right, inorder);
+    } 
+//optimal approach
+ TreeNode first; TreeNode mid; TreeNode last;
+    TreeNode prev;
+    public void recoverTree(TreeNode root) {
+       prev = null;
+       inOrder(root);
+       if(first != null && last != null){
+        swap(first,last);
+       }
+       else if(first != null && mid != null){
+        swap(first,mid);
+       }
+    } 
+    public void inOrder(TreeNode root){
+        if(root == null){
+            return;
+        }
+        inOrder(root.left);
+        if(prev != null && prev.val > root.val){
+            if(first == null){
+                first = prev;
+                mid = root;
+            }
+            else{
+                last = root;
+            }
+        }
+        prev = root;
+        inOrder(root.right);
+    }
+    public void swap(TreeNode first, TreeNode last){
+          int temp = first.val;
+          first.val = last.val;
+          last.val = temp;
+      
+    }
