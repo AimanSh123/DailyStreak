@@ -1,0 +1,25 @@
+ public long maximumValueSum(int[] nums, int k, int[][] edges) {
+        List<Integer> profit = new ArrayList<>();
+        List<Integer> loss = new ArrayList<>();
+        long sum1 = 0; long sum2 = 0;
+        for(int num: nums){
+            int diff = (num ^ k) - num;
+            if(diff >= 0){
+                sum1 += (num^k);
+                profit.add(diff);
+            }
+            else{
+                sum2 += (num);
+                loss.add(Math.abs(diff));
+            }
+        }
+        if(profit.size() % 2 == 0){
+            return sum1 + sum2;
+        }
+        Collections.sort(loss); Collections.sort(profit);
+        long ans = 0;
+        if(loss.size() > 0){
+            ans = sum1 + sum2 - loss.get(0);
+        }
+        return Math.max(ans,sum1 + sum2 - profit.get(0));        
+    }
