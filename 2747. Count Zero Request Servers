@@ -1,0 +1,67 @@
+//brute force approach
+public int[] countServers(int n, int[][] logs, int x, int[] queries) {
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        int[] result = new int[queries.length];
+        for (int[] it : logs) {
+            if (!map.containsKey(it[0]))
+                map.put(it[0], new ArrayList<>());
+            map.get(it[0]).add(it[1]);
+        }
+        for (int i = 0; i < queries.length; i++) {
+            int st = queries[i] - x;
+            int ed = queries[i];
+            result[i] = n;
+            for (int j = 1; j <= n; j++) {
+                List<Integer> list = map.get(j);
+                if (list != null) {
+                    int iterator = 0;
+                    while (iterator < list.size()) {
+                        int curr = list.get(iterator);
+                        if (curr >= st && curr <= ed) {
+                            result[i]--;
+                            break;
+                        }
+                        iterator++;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+//optimal approach
+   public int[] countServers(int n, int[][] logs, int x, int[] queries) {
+        List<int[]> qry = new ArrayList<>();
+        for (int i = 0; i < queries.length; i++) {
+            qry.add(new int[]{queries[i], i});
+        }
+        int [] result = new int[queries.length];
+        Collections.sort(qry, (a, b) -> a[0] - b[0]);
+        Arrays.sort(logs, (a, b) -> a[1] - b[1]);
+        int i = 0;
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.time-b.time);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int[] query : qry) {
+            while (i < logs.length && logs[i][1] <= query[0]) {
+                pq.add(new Pair(logs[i][1], logs[i][0]));
+                map.put(logs[i][0], map.getOrDefault(logs[i][0], 0) + 1);
+                i++;
+            }
+            while(!pq.isEmpty() && pq.peek().time < query[0]-x){
+                Pair p = pq.remove();
+                map.put(p.id, map.get(p.id) - 1);
+                if(map.get(p.id) == 0){
+                    map.remove(p.id);
+                }
+            }
+            result[query[1]] = n - map.size();
+        }
+        return result;
+
+    }
+    class Pair{
+        int time, id;
+        Pair(int time, int id){
+            this.time = time;
+            this.id = id;
+        }
+    }
