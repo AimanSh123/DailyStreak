@@ -1,0 +1,28 @@
+static List<Integer> parent;
+	static int spanningTree(int V, int E, int edges[][]){
+	    // Code Here. 
+	   int total = 0;
+	    Arrays.sort(edges,(a,b)->a[2]-b[2]);
+	    parent = new ArrayList<>();
+	    for(int i = 0; i < V; i++){
+	        parent.add(i);
+	    }
+	    for(int [] edge: edges){
+	        int u = edge[0]; int v = edge[1];
+	        int ultU = findParent(u);
+	        int ultV = findParent(v);
+	        if(ultU == ultV){
+	            continue;
+	        }
+	        parent.set(ultU,ultV);
+	        total += edge[2];
+	    }
+	    return total;
+	}
+	static int findParent(int u){
+	    if(u == parent.get(u)){
+	        return u;
+	    }
+	    parent.set(u,findParent(parent.get(u)));
+	    return parent.get(u);
+	}
