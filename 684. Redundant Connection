@@ -1,0 +1,26 @@
+ public int[] findRedundantConnection(int[][] edges) {
+        //we need to remove the edge which makes cycle
+        List<Integer> parent = new ArrayList<>();
+        for(int i = 0; i <= edges.length; i++){
+            parent.add(i);
+        }
+        List<int[]>possSol = new ArrayList<>();
+        for(int [] edge: edges){
+            int u = edge[0]; int v = edge[1];
+            int ultU = findParent(u,parent);
+            int ultV = findParent(v,parent);
+            if(ultU == ultV){
+                possSol.add(new int[]{u,v});
+                break;
+            }
+            parent.set(ultU,ultV);            
+        }
+        return possSol.get(possSol.size() - 1);
+    }
+    int findParent(int u, List<Integer> parent){
+        if(u == parent.get(u)){
+            return u;
+        }
+        parent.set(u, findParent(parent.get(u),parent));
+        return parent.get(u);
+    } 
