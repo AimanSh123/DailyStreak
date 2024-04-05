@@ -1,0 +1,26 @@
+ public String makeGood(String s) {
+        Stack<Character> st = new Stack<>();
+        st.push(s.charAt(0));
+        for(int i = 1; i < s.length(); i++){
+            if(st.isEmpty() || isGood(st, s.charAt(i))){
+                st.push(s.charAt(i));
+            }
+            else{
+                st.pop();
+            }
+           
+        }
+        StringBuilder reversed = new StringBuilder();
+        while(!st.isEmpty()){
+            reversed.append(st.pop());
+        }
+        reversed = reversed.reverse();
+        return reversed.toString();       
+    }
+    public boolean isGood(Stack<Character> st, Character ch){
+       if(Integer.valueOf(st.peek()) == Integer.valueOf(ch)+32 || 
+       Integer.valueOf(st.peek()) + 32 == Integer.valueOf(ch) ){
+        return false;
+       }  
+       return true;
+    }
