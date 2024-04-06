@@ -1,0 +1,16 @@
+  public long maximumSubarraySum(int[] nums, int k) {
+        int left = 0; int right = 0;
+        long sum = 0; long maxiSum = 0;
+        HashSet<Integer> set = new HashSet<>();
+        for(left = 0; left < nums.length; left++){
+            while(right < nums.length && !set.contains(nums[right]) && set.size() < k){
+                sum += nums[right]; set.add(nums[right]); 
+                right++;
+            }
+            if(set.size() == k){
+                maxiSum = Math.max(maxiSum,sum);
+            }
+            set.remove(nums[left]); sum -= nums[left];
+        }   
+        return maxiSum;
+    }
