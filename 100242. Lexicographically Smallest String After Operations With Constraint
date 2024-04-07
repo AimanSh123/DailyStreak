@@ -1,0 +1,29 @@
+    String sol = "";
+    public String getSmallestString(String s, int k) {
+        if(k == 0){
+            return s;
+        }
+        recursion(s,k,"",0);
+        return sol;    
+    }
+    public void recursion(String s, int k, String curr, int idx){
+        if(idx == s.length()){
+            if(sol.equals("")){
+                sol = curr;
+            }
+            else{
+                sol = (sol.compareTo(curr) < 0) ? sol : curr;
+            }
+            return;
+        }
+        for(int i = 0; i <= Math.min(k,26); i++){
+            int nextChar1 = (s.charAt(idx) - 'a' + i) % 26;
+            char newChar1 = (char) (nextChar1 + 'a');
+            int nextChar2 = (s.charAt(idx) - 'a' - i + 26) % 26; 
+            char newChar2 = (char) (nextChar2 + 'a');         
+            char newChar = (char) Math.min(newChar1, newChar2);  
+            if (k - i >= 0 && (sol.equals("") || (curr + newChar).compareTo(sol) < 0)) {
+                recursion(s, k - i, curr + newChar, idx + 1);
+            }   
+        }
+    }
