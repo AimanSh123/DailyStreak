@@ -1,4 +1,5 @@
-    String sol = "";
+//recursion
+String sol = "";
     public String getSmallestString(String s, int k) {
         if(k == 0){
             return s;
@@ -27,3 +28,27 @@
             }   
         }
     }
+
+//optimal approach
+  public String getSmallestString(String s, int k) {
+        String sol = "";
+        for(int i = 0; i < s.length(); i++){
+            if(k == 0){
+                sol += s.charAt(i);
+            }
+            else{
+                int back = s.charAt(i) - 'a'; int front = 'z' - s.charAt(i) + 1;
+                int mini = Math.min(back,front);
+                if(mini <= k){
+                    sol += 'a';
+                    k -= mini;
+                }
+                else{
+                   sol += (char)(s.charAt(i) - k);
+                   k -= k;
+                }
+            }
+
+        }
+        return sol;
+    }    
