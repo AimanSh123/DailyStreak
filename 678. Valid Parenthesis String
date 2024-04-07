@@ -85,4 +85,23 @@ public boolean checkValidString(String s) {
         dp[idx][count] = isValidated ? 1 : 0;
         return isValidated;
     }
+//2 pointer approach
+   public boolean checkValidString(String s) {
+       //2 pointer
+        int openCount = 0; int closeCount = 0;
+        int n = s.length();
+        for(int i = 0; i < s.length(); i++){
+            if(s.charAt(i) == '(' || s.charAt(i) == '*') openCount++;
+            else openCount--;
+
+            if(s.charAt(n - i - 1) == ')' || s.charAt(n - i - 1) == '*') closeCount++;
+            else closeCount--;
+            
+            if(openCount < 0 || closeCount < 0){
+                return false;
+            }
+        }
+        return true;
+    
+    }
 
