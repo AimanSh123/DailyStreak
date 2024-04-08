@@ -1,0 +1,19 @@
+ public int countStudents(int[] students, int[] sandwiches) {
+        Queue<Integer> q = new ArrayDeque<>();
+        for(int it : students){
+            q.add(it);
+        }
+        for(int it: sandwiches){
+            int size = q.size();
+            while(!q.isEmpty() && size != 0 && it != q.peek()){
+                q.add(q.remove()); size--;
+            }
+            if(q.peek() == it){
+                q.remove();
+            }
+            else{
+                break;
+            }
+        }
+        return q.size();
+    }
