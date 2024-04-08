@@ -1,0 +1,74 @@
+   public int countCompleteComponents(int n, int[][] edges) {
+        // lets do this with dsu
+        disJoint dsu = new disJoint(n);
+        int count = 0;
+        HashMap<Integer, HashSet<Integer>> graph = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+        }
+        for (int[] edge : edges) {
+            dsu.takeUnion(edge[0], edge[1]);
+            if (!graph.containsKey(edge[0])) {
+                graph.put(edge[0], new HashSet<>());
+            }
+            if (!graph.containsKey(edge[1])) {
+                graph.put(edge[1], new HashSet<>());
+            }
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        HashMap<Integer, List<Integer>> prntChildren = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int parent = dsu.findParent(i);
+            if (!prntChildren.containsKey(parent)) {
+                prntChildren.put(parent, new ArrayList<>());
+            }
+            prntChildren.get(parent).add(i);
+        }
+        for (List<Integer> list : prntChildren.values()) {
+            if(isComplete(list, graph)) {
+                count++;
+            }
+        }
+        return count;
+
+    }
+
+    public boolean isComplete(List<Integer> children, HashMap<Integer, HashSet<Integer>> graph) {
+        for (int i = 0; i < children.size(); i++) {
+            for (int j = i + 1; j < children.size(); j++) {
+                HashSet<Integer> set = graph.get(children.get(i));
+                if (!set.contains(children.get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public class disJoint {
+        List<Integer> parent = new ArrayList<>();
+
+        disJoint(int n) {
+            for (int i = 0; i < n; i++) {
+                parent.add(i);
+            }
+        }
+
+        public int findParent(int u) {
+            int ult_u = parent.get(u);
+            if (ult_u == u) {
+                return u;
+            }
+            parent.set(u, findParent(ult_u));
+            return parent.get(u);
+        }
+
+        public void takeUnion(int u, int v) {
+            int ult_u = findParent(u);
+            int ult_v = findParent(v);
+            if (ult_u == ult_v) {
+                return;
+            }
+            parent.set(ult_u, ult_v);
+        }
+    }
