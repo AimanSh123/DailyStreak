@@ -1,0 +1,35 @@
+ public int minScore(int n, int[][] roads) {
+        disJoint dsu = new disJoint(n);
+        for(int [] road: roads){
+            dsu.takeUnion(road[0],road[1]); 
+        } int mini = Integer.MAX_VALUE;
+        for(int [] road: roads){
+            if(dsu.findParent(road[0]) == dsu.findParent(1)){
+                mini = Math.min(mini,road[2]);
+            }
+        }
+        return mini;
+    }
+    public class disJoint{
+        List<Integer> parent = new ArrayList<>();
+        disJoint(int n){
+            for(int i = 0; i <= n; i++){
+                parent.add(i);
+            }
+        }
+        public int findParent(int u){
+            if(parent.get(u) == u){
+                return u;
+            }
+            parent.set(u,findParent(parent.get(u)));
+            return parent.get(u);
+        }
+        public void takeUnion(int u, int v){
+            int ult_u = findParent(u); 
+            int ult_v = findParent(v);
+            if(ult_u == ult_v){
+                return;
+            }
+            parent.set(ult_u,ult_v);
+        }
+    }
