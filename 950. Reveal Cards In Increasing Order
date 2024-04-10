@@ -1,0 +1,14 @@
+    public int[] deckRevealedIncreasing(int[] deck) {
+        Arrays.sort(deck);
+        Queue<Integer> q = new ArrayDeque<>();
+        int [] res = new int[deck.length];
+        for(int i = 0; i < deck.length; i++){
+            q.add(i);
+        }
+        for(int i = 0; i < deck.length; i++){
+            int pos = q.remove();
+            res[pos] = deck[i];
+            if(!q.isEmpty())  q.add(q.remove());
+        }
+        return res;
+    }
