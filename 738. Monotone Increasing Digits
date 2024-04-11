@@ -1,0 +1,48 @@
+//brute force approach
+  public int monotoneIncreasingDigits(int n) {
+        Stack<Integer> st = new Stack<>();
+        while(n > 0){
+            st = new Stack<>();
+            String s = String.valueOf(n);
+            int i = 0;
+            for(i = 0; i < s.length(); i++){
+                int num = s.charAt(i) - '0';
+                if(st.isEmpty() || st.peek() <= num){
+                    st.push(num);
+                }
+                else{
+                    break;
+                }
+            }
+            if( i == s.length()){
+                break;
+            }
+            n--;
+        }  
+        System.out.println(st);
+        int number = 0; int it = 1;
+        while(!st.isEmpty()){
+           number = number + st.pop() * it;
+           it *= 10;
+        }
+        return number;
+    }
+//optimal approach
+ public int monotoneIncreasingDigits(int n) {
+        char [] arr = String.valueOf(n).toCharArray();
+        int i = 1;
+        for(i = 1; i < arr.length; i++){
+            if(arr[i-1] > arr[i]){
+                break;
+            }
+        }
+        while(i < arr.length && i > 0 && arr[i] < arr[i-1]){
+            arr[i-1]--; i--;
+        }
+        int j = i + 1;
+        while(j < arr.length){
+             arr[j] = '9';
+             j++;
+        }
+        return Integer.valueOf(String.valueOf(arr));
+    }
