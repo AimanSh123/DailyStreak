@@ -1,0 +1,38 @@
+  public List<List<String>> mostPopularCreator(String[] creators, String[] ids, int[] views) {
+        HashMap<String,Long> creatorView = new HashMap<>();
+        HashMap<String,PriorityQueue<Pair>> map = new HashMap<>();
+        long mostPopular = 0;
+        for (int i = 0; i < creators.length; i++) {
+            creatorView.put(creators[i], creatorView.getOrDefault(creators[i], 0L)+(long)views[i]);
+            if(!map.containsKey(creators[i])){
+                map.put(creators[i],new PriorityQueue<>((a,b)->
+                a.view==b.view?a.id.compareTo(b.id):b.view-a.view));
+            } 
+            Pair p = new Pair(views[i],ids[i]);
+            map.get(creators[i]).add(p);
+            mostPopular = Math.max(mostPopular,creatorView.get(creators[i]));
+        }
+        List<List<String>> res = new ArrayList<>();
+        for(Map.Entry<String,Long>entry:creatorView.entrySet()){
+            if(entry.getValue()==mostPopular){
+                List<String>list = new ArrayList<>();
+                PriorityQueue<Pair>pq = map.get(entry.getKey());
+                Pair p = pq.remove();
+                list.add(entry.getKey()); list.add(p.id);
+                res.add(list);
+            }
+        }
+        return res;
+
+
+    }
+
+    class Pair {
+        int view;
+        String id;
+
+        Pair(int view, String id) {
+            this.view = view;
+            this.id = id;
+        }
+    }
