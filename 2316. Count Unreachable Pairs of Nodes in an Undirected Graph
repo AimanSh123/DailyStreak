@@ -1,0 +1,41 @@
+ public long countPairs(int n, int[][] edges) {
+        disJoint dsu = new disJoint(n);
+        for(int []edge:edges){
+            dsu.takeUnion(edge[0],edge[1]);
+        }
+        HashMap<Integer,Long> map = new HashMap<>();
+        for(int i = 0; i < n; i++){
+            int parent = dsu.findPrnt(i);
+            map.put(parent,map.getOrDefault(parent,0L)+1); 
+        }
+        long ans = 0; int total = n;
+        for(Map.Entry<Integer,Long>entry:map.entrySet()){
+            total -= entry.getValue();
+            ans += (long)(total * entry.getValue());
+        }
+        return ans;
+    }
+    public class disJoint{
+        List<Integer>parent;
+        disJoint(int n){
+            parent = new ArrayList<>();
+            for(int i = 0; i < n; i++){
+                parent.add(i);
+            }
+        }
+        int findPrnt(int u){
+            if(parent.get(u)==u){
+                return u;
+            }
+            parent.set(u,findPrnt(parent.get(u)));
+            return parent.get(u);
+        }
+        void takeUnion(int u, int v){
+            int ult_u = findPrnt(u);
+            int ult_v = findPrnt(v);
+            if(ult_u == ult_v){
+                return;
+            }
+            parent.set(ult_u,ult_v);
+        }
+    }
