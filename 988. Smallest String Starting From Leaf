@@ -23,3 +23,36 @@
         recursion(root.left, ch + s);
         recursion(root.right, ch + s);
     }
+//bfs
+  String small;
+    public String smallestFromLeaf(TreeNode root) {
+        if(root == null){
+            return "";
+        }
+        Queue<Pair> q = new ArrayDeque<>();
+        q.add(new Pair(root,""));
+        while(!q.isEmpty()){
+            Pair p = q.remove();
+            char ch = (char)(p.node.val + 'a');
+            String curr = ch + p.s; 
+            if(p.node.left==null && p.node.right==null){
+              if(small == null || small.compareTo(curr) > 0){ // If small is null or curr is smaller
+                small = curr;
+            }}
+            if(p.node.left != null){
+                q.add(new Pair(p.node.left,curr)); 
+            }
+            if(p.node.right != null){
+                  q.add(new Pair(p.node.right,curr)); 
+            }
+        }
+        return small;
+
+    }
+    public class Pair{
+        TreeNode node; String s;
+        Pair(TreeNode node, String s){
+            this.node = node;
+            this.s = s;
+        }
+    }
