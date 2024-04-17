@@ -1,0 +1,25 @@
+   String small;
+
+    public String smallestFromLeaf(TreeNode root) {
+        small = "";
+        recursion(root, "");
+        return small;
+    }
+
+    public void recursion(TreeNode root, String s) {
+        if (root == null) {
+                return;
+        }
+        char ch = (char) (root.val + 'a');
+        if(root.left == null && root.right == null){
+            s = ch + s;
+            if (small == "") {
+                small = s;
+                return;
+            }
+            small = small.compareTo(s) < 0 ? small : s;
+            return;
+        }
+        recursion(root.left, ch + s);
+        recursion(root.right, ch + s);
+    }
