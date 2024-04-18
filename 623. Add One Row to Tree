@@ -1,0 +1,28 @@
+  public TreeNode addOneRow(TreeNode root, int val, int depth) {
+        if(depth == 1){
+            TreeNode newroot = new TreeNode(val);
+            newroot.left = root;
+            return newroot;
+        }
+        dfs(root, val, depth, 1); 
+        return root;
+    }
+    public void dfs(TreeNode root, int val, int depth,int currHght){
+        if(root == null){
+            return;
+        }
+        if(depth - 1 == currHght){
+            TreeNode leftOne = new TreeNode(val);
+            TreeNode rightOne = new TreeNode(val);
+            if(root.left != null){
+               leftOne.left = root.left;
+            }
+            if(root.right != null){
+              rightOne.right = root.right;
+            }
+            root.left = leftOne; root.right = rightOne;
+            return;
+        }
+        dfs(root.left,val,depth,currHght + 1);
+        dfs(root.right,val,depth,currHght + 1);
+    }
