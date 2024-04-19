@@ -1,0 +1,53 @@
+ public int[] minimumTime(int n, int[][] edges, int[] disappear) {
+        List<List<Pair>> graph = new ArrayList<>();
+        int [] minTime = new int[n];
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+            minTime[i] = Integer.MAX_VALUE;
+        }
+        for(int []edge: edges){
+            graph.get(edge[0]).add(new Pair(edge[1],edge[2]));
+            graph.get(edge[1]).add(new Pair(edge[0],edge[2]));
+        }
+        minTime[0] = 0;
+        PriorityQueue<Pair>pq = new PriorityQueue<>((a,b)->a.t-b.t);
+        
+        pq.add(new Pair(0,0));
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int node = p.node; int time = p.t;
+             if(minTime[node] != Integer.MAX_VALUE && minTime[node]<time){
+                continue;
+             } 
+             if (time > disappear[node]) {
+               continue;
+             }
+
+             for (Pair neigh : graph.get(node)) {
+                int newTime = time + neigh.t;
+
+                if (newTime < minTime[neigh.node] && disappear[neigh.node] > newTime) {
+                  minTime[neigh.node] = newTime;
+                  pq.add(new Pair(neigh.node, newTime));
+                }
+           }
+        }
+
+        for (int i = 0; i < n; i++) {
+           if (minTime[i] == Integer.MAX_VALUE) {
+               minTime[i] = -1;
+           } 
+    }
+        return minTime;
+        
+    }
+
+    public class Pair {
+        int node;
+        int t;
+
+        Pair(int node, int t) {
+            this.node = node;
+            this.t = t;
+        }
+    }
