@@ -1,0 +1,33 @@
+ public int numIslands(char[][] grid) {
+        //lets do this with dfs
+        int n = grid.length; int m = grid[0].length;
+        boolean [][] visited = new boolean[n][m];
+        int cnt = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(!visited[i][j] && grid[i][j] == '1'){
+                    cnt++;
+                    dfs(visited,grid,i,j);
+                }
+            }
+        }
+        return cnt;
+    }
+    public void dfs(boolean[][]visited,char[][]grid,int i,int j){
+        if(visited[i][j] || grid[i][j] == '0'){
+            return;
+        }
+        visited[i][j] = true;
+        if(i+1<grid.length){
+            dfs(visited,grid,i+1,j);
+        }
+        if(i-1>=0){
+            dfs(visited,grid,i-1,j);
+        }
+        if(j+1<grid[0].length){
+            dfs(visited,grid,i,j+1);
+        }
+        if(j-1>=0){
+            dfs(visited,grid,i,j-1);
+        }
+    }
