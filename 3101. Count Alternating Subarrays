@@ -1,0 +1,12 @@
+  public long countAlternatingSubarrays(int[] nums) {
+        long count = 0; int i = -1; int j = 0;
+        while(j < nums.length){
+            if(j >0 && nums[j] == nums[j-1]){
+              i = j-1;  
+            }
+            count += (j-i); 
+            j++;
+        }
+        return count;
+        
+    }
