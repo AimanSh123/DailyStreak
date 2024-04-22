@@ -1,0 +1,35 @@
+ public int openLock(String[] deadends, String target) {
+        HashSet<String>deadSet = new HashSet<>(Arrays.asList(deadends));
+        if(deadSet.contains("0000")){
+            return -1;
+        }
+        Queue<Pair>q = new ArrayDeque<>();
+        q.add(new Pair("0000",0));
+        HashSet<String>visited = new HashSet<>();
+        visited.add("0000");
+        while(!q.isEmpty()){
+            Pair p = q.remove();
+            String curr = p.s; int moves = p.moves;
+            if(curr.equals(target)){
+                return moves;
+            }
+            for(int i = 0; i < 4; i++){
+                for(int rotation: new int[]{-1,1}){
+                   int newDigit = (curr.charAt(i) - '0' + rotation + 10)%10;
+                   String nextRotate = curr.substring(0,i)+newDigit+curr.substring(i+1);
+                   if(!visited.contains(nextRotate) && !deadSet.contains(nextRotate)){
+                        visited.add(nextRotate);
+                        q.add(new Pair(nextRotate,moves+1));
+                   }
+                }
+            }
+        }
+        return -1;
+    }
+    class Pair{
+        String s; int moves;
+        Pair(String s, int moves){
+            this.s = s;
+            this.moves = moves;
+        }
+    }
