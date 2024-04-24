@@ -1,0 +1,45 @@
+ List<List<Pair>> graph;
+    int n;
+    public Graph(int n, int[][] edges) {
+        graph = new ArrayList<>();
+        this.n = n;
+        for(int i = 0; i < n; i++) graph.add(new ArrayList<>());
+        for(int [] edge: edges)
+            graph.get(edge[0]).add(new Pair(edge[1],edge[2]));
+    }
+    
+    public void addEdge(int[] edge) {
+        graph.get(edge[0]).add(new Pair(edge[1],edge[2]));
+        
+    } 
+    public int shortestPath(int node1, int node2) {
+        PriorityQueue<Pair>pq = new PriorityQueue<>((a,b)->a.wt-b.wt);
+        int[] distance = new int[n];
+        pq.add(new Pair(node1,0));
+        Arrays.fill(distance,Integer.MAX_VALUE);
+        distance[node1] = 0;
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int c_node = p.node; int weight = p.wt;
+            if(weight > distance[c_node]){
+                continue;
+            }
+            if(c_node == node2) return distance[node2];
+            for(Pair neigh : graph.get(c_node)){
+                if(distance[neigh.node] > distance[c_node] + neigh.wt){
+                    distance[neigh.node] = distance[c_node] + neigh.wt;
+                    pq.add(new Pair(neigh.node,distance[neigh.node]));
+                }
+            }
+        }
+        return distance[node2] == Integer.MAX_VALUE? -1 : distance[node2];
+
+        
+    }
+    public class Pair{
+        int node; int wt;
+        Pair(int node, int wt){
+            this.node = node;
+            this.wt = wt;
+        }
+    }
