@@ -1,0 +1,50 @@
+  List<List<Pair>> graph;
+    int n;
+    public boolean[] findAnswer(int n, int[][] edges) {
+        graph = new ArrayList<>(); this.n = n;
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int [] edge: edges){
+            graph.get(edge[0]).add(new Pair(edge[1],edge[2]));
+            graph.get(edge[1]).add(new Pair(edge[0],edge[2]));
+        }    
+        int [] d1 = dijkstra(0);
+        int [] d2 = dijkstra(n-1);
+        boolean [] sol = new boolean[edges.length];
+        for(int i = 0; i < sol.length; i++){
+            int u = edges[i][0]; int v = edges[i][1];
+            int weight = edges[i][2];
+            if(d1[u] + d2[v] + weight == d1[n-1])
+                sol[i] = true;
+            if(d1[v] + d2[u] + weight == d1[n-1])
+                sol[i] = true;
+        }
+        return sol;
+    }
+    public int[] dijkstra(int src){
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.wt-b.wt);
+        pq.add(new Pair(src,0));
+        int[] dist = new int[n];
+        Arrays.fill(dist,Integer.MAX_VALUE); dist[src] = 0;
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int c_node = p.node; int c_wt = p.wt;
+            if(dist[c_node] < c_wt){
+                continue;
+            }
+            for(Pair neigh: graph.get(c_node)){
+                if(dist[neigh.node] > c_wt + neigh.wt){
+                    dist[neigh.node] = c_wt + neigh.wt; 
+                    pq.add(new Pair(neigh.node,dist[neigh.node]));
+                }
+            }
+        }
+        return dist; 
+    }
+    class Pair{
+        int wt, node;
+        Pair(int node, int wt){
+            this.wt = wt; this.node = node;
+        }
+    }
