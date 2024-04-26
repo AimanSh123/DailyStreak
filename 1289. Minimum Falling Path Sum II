@@ -1,0 +1,22 @@
+  public int minFallingPathSum(int[][] grid) {
+        int n = grid.length; int m = grid[0].length;
+        int mini =Integer.MAX_VALUE;
+        int[][] dp = new int[n][m];
+        for(int [] it: dp)
+           Arrays.fill(it,-1);
+        for(int i = 0; i < m; i++)
+           mini = Math.min(mini,grid[0][i] + recursion(grid,1,i,dp));
+        return mini;
+    }
+    public int recursion(int[][]grid,int i, int j,int[][]dp){
+        if(i == grid.length){
+            return 0;
+        }
+        if(dp[i][j] != -1) return dp[i][j];
+        int mini = Integer.MAX_VALUE;
+        for(int col = 0; col < grid[0].length; col++){
+           if(col == j) continue;
+           mini = Math.min(mini,grid[i][col] + recursion(grid,i+1,col,dp));
+        }
+        return dp[i][j] = mini;
+    }
