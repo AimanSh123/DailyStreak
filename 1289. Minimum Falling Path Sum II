@@ -20,3 +20,27 @@
         }
         return dp[i][j] = mini;
     }
+//tabulation
+ public int minFallingPathSum(int[][] grid) {
+        int n = grid.length; int m = grid[0].length;
+        if(m == 1 && n == 1)
+           return grid[0][0];
+        int[][] dp = new int[n+1][m];
+        for(int i = 0; i < m; i++)
+           dp[0][i] = grid[0][i];
+        for(int i = n - 1; i >= 0; i--){
+          for(int j = 0; j < m; j++){ 
+            int mini = Integer.MAX_VALUE;
+            for(int col = 0; col < m; col++){
+                if(col == j) continue;
+                mini = Math.min(mini,grid[i][col] + dp[i+1][col]);
+            }
+            dp[i][j] = mini;
+          }
+        } 
+        int ans = Integer.MAX_VALUE;
+        for(int col = 0; col < m; col++){
+             ans = Math.min(ans,dp[0][col]); 
+        }  
+        return ans;
+    }
