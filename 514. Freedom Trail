@@ -1,0 +1,45 @@
+//dp approach: memoization
+public int findRotateSteps(String ring, String key) {
+        int[][]dp = new int[ring.length()][key.length()];
+        for(int []ir:dp) Arrays.fill(ir,-1);
+        return recursion(0,0,ring,key,dp);
+    }
+    public int recursion(int ringIdx,int keyIdx,String ring,String key,int[][]dp){
+        if(keyIdx == key.length()) return 0;
+        if(dp[ringIdx][keyIdx] != -1) return dp[ringIdx][keyIdx];
+        int minSteps = Integer.MAX_VALUE;
+        for(int i = 0; i < ring.length(); i++){
+            if(ring.charAt(i) == key.charAt(keyIdx)){
+                int currStep = dis(i,ringIdx,ring.length()) +
+                        1 + recursion(i,keyIdx+1,ring,key,dp);
+                minSteps = Math.min(currStep,minSteps);        
+            }
+        }
+        return dp[ringIdx][keyIdx] = minSteps;
+    }
+    public int dis(int idx, int curr, int len){
+        int stepsBetween = Math.abs(curr-idx);
+        return Math.min(stepsBetween,len - stepsBetween);
+    }
+//tabulation
+ public int findRotateSteps(String ring, String key) {
+        int[][]dp = new int[ring.length()][key.length() + 1];
+        for(int keyIdx = key.length()-1; keyIdx >= 0; keyIdx--){
+            for(int ringIdx = 0; ringIdx < ring.length(); ringIdx++){
+                int minSteps = Integer.MAX_VALUE;
+                for(int i = 0; i < ring.length(); i++){
+                    if(ring.charAt(i) == key.charAt(keyIdx)){
+                        int currStep = dis(i,ringIdx,ring.length()) +
+                            1 + dp[i][keyIdx+1];
+                        minSteps = Math.min(currStep,minSteps);        
+                    }
+                }
+                dp[ringIdx][keyIdx] = minSteps;
+            }
+        }
+        return dp[0][0];
+    }
+    public int dis(int idx, int curr, int len){
+        int stepsBetween = Math.abs(curr-idx);
+        return Math.min(stepsBetween,len - stepsBetween);
+    }
