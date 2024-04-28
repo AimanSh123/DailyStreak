@@ -1,0 +1,29 @@
+  public long minEnd(int n, int x) {
+        n--;
+        int[] xBit = new int[64];
+        int[] nBit = new int[64];
+
+        // Extracting bits from x and n
+        for (int i = 0; i < 32; i++) {
+            if (((x >> i) & 1) == 1)
+                xBit[i] = 1;
+            if (((n >> i) & 1) == 1)
+                nBit[i] = 1;
+        }
+
+        // Shifting bits from n to x
+        int i = 0, j = 0;
+        while (i < 64) {
+            if (xBit[i] == 1) {
+                i++;
+                continue;
+            }
+            xBit[i++] = nBit[j++];
+        }
+        // Calculating the result
+        long ans = 0;
+        for (i = 0; i < 64; i++) {
+            ans += (xBit[i] * (Math.pow(2,i)));
+        }
+        return ans;
+    }
