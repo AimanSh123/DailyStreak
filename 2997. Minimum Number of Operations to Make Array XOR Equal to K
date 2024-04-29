@@ -1,0 +1,13 @@
+   public int minOperations(int[] nums, int k) {
+        int ans = 0;
+        for(int bit = 0; bit <= 20; bit++){
+            int xorVal = 0;
+            for(int el: nums){
+                if(((el>>bit)&1)== 1)
+                  xorVal ^= 1;
+            }
+            int kBit = (k >> bit) & 1;
+            if(kBit != xorVal) ans++;
+        }
+        return ans;
+    }
