@@ -1,0 +1,14 @@
+  public String reversePrefix(String word, char ch) {
+        int i = 0; int j = -1;
+        for(i = 0; i < word.length(); i++){
+            char curr = word.charAt(i);
+            if(curr == ch){ j = i; break;}
+        }
+        if(j == -1) return word;
+        String sol = ""; i = 0;
+        while(i <= j){
+          sol = word.charAt(i) + sol;
+          i++;
+        }
+        return sol + word.substring(j+1);
+    }
