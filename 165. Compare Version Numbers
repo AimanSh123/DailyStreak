@@ -1,0 +1,17 @@
+  public int compareVersion(String version1, String version2) {
+        String[]revision1 = version1.split("\\.");
+        String[]revision2 = version2.split("\\.");
+        int i = 0; int j = 0;
+        while(i < revision1.length || j < revision2.length){
+           int val1; 
+           if(i < revision1.length) val1 = Integer.parseInt(revision1[i]);
+           else val1 = 0;
+           int val2;
+           if(j < revision2.length) val2 = Integer.parseInt(revision2[j]);
+           else val2 = 0;
+           if(val1 > val2) return 1;
+           else if(val1 < val2) return -1;
+           i++; j++;
+        }
+        return 0;
+    }
