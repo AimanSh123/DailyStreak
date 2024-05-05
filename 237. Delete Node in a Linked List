@@ -1,0 +1,6 @@
+  public void deleteNode(ListNode node) {
+        if(node.next == null) node = null;
+        ListNode temp = node;
+        temp.val = temp.next.val;
+        temp.next = temp.next.next;
+    }
