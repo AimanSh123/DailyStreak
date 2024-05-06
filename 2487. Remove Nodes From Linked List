@@ -1,0 +1,29 @@
+public ListNode removeNodes(ListNode head) {
+        ListNode node = head;
+        ListNode tail = reverse(node);
+        ListNode curr = tail;
+        ListNode prev = new ListNode(-1);
+        prev.next = tail; ListNode help = prev;
+        while (curr != null) {
+            if (prev.val > curr.val) {
+                prev.next = curr.next;
+                curr = curr.next;
+            } else {
+                prev = curr;
+                curr = curr.next;
+            }
+        }
+        return reverse(help.next);
+    }
+
+    public ListNode reverse(ListNode node) {
+        ListNode curr = node;
+        ListNode prev = null;
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
