@@ -1,0 +1,15 @@
+ public ListNode doubleIt(ListNode head) {
+       if(head == null) return null;
+       ListNode curr = head;
+       if(head.val > 4){
+         ListNode newHead = new ListNode((2 * head.val)/10, head);
+         head = newHead;
+       } 
+       for(curr = curr; curr != null; curr = curr.next){
+            curr.val = (curr.val * 2) % 10;
+            if(curr.next != null && curr.next.val > 4){
+                curr.val++;
+            }
+       }
+       return head;
+    }
