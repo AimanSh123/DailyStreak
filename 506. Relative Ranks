@@ -1,0 +1,32 @@
+ public String[] findRelativeRanks(int[] score) {
+       PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->b.value-a.value);
+        for(int i = 0; i < score.length; i++){
+          pq.add(new Pair(score[i],i));
+        }
+        int counter = 1; String [] res = new String[score.length];
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int idx = p.idx;
+            if(counter == 1){
+               res[idx] = "Gold Medal";
+            }
+            else if(counter == 2){
+                res[idx] = "Silver Medal";
+            }
+            else if(counter == 3){
+                res[idx] = "Bronze Medal";
+            }
+            else{
+                res[idx] = counter + "";
+            }
+            counter++;
+        }
+        return res;
+    }
+    class Pair{
+        int value; int idx;
+        Pair(int value, int idx){
+            this.value = value;
+            this.idx = idx;
+        }
+    }
