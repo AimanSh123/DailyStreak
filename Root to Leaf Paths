@@ -1,0 +1,25 @@
+ public static ArrayList<ArrayList<Integer>> result;
+    public static ArrayList<ArrayList<Integer>> Paths(Node root) {
+        // code here
+        //lets do it with dfs
+        result = new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<>();
+        recursion(root, list);
+        return result;
+    }
+    public static void recursion(Node root, ArrayList<Integer> list){
+        if(root.left == null && root.right == null){
+            list.add(root.data);
+            result.add(new ArrayList<>(list));
+            list.remove(list.size() - 1);
+            return;
+        }
+        list.add(root.data);
+        if(root.left != null){
+            recursion(root.left,list);
+        }
+        if(root.right != null){
+            recursion(root.right,list);
+        }
+        list.remove(list.size() - 1);
+    }
