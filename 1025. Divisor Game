@@ -1,0 +1,37 @@
+//memoization
+ public static boolean divisorGame(int n) {
+        // code here
+        int [] dp = new int[n + 1];
+        Arrays.fill(dp,-1);
+        return recursion(dp,n);
+    }
+    public static boolean recursion(int [] dp, int n){
+        if(n == 1){
+            return false;
+        }
+        if(dp[n] != -1){
+            return dp[n] == 1;
+        }
+        for(int i = 1; i < n; i++){
+            if(n % i == 0 && !recursion(dp,n-i)){
+                dp[n] = 1;
+                return true;
+            }
+        }
+        dp[n] = 0;
+        return false;
+    }
+//tabulation
+ public static boolean divisorGame(int n) {
+        // code here
+        int [] dp = new int[n + 1];
+        dp[1] = 0;
+        for(int j = 2; j <= n; j++){
+            for(int i = 1; i < j; i++){
+                if(j % i == 0 && dp[j-i] == 0){
+                   dp[j] = 1;
+                }
+            }
+        }
+        return dp[n] == 1;
+    }
