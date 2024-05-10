@@ -1,0 +1,20 @@
+ static List<Integer> result;
+    static List<Integer> jugglerSequence(int n) {
+        // code here
+        result = new ArrayList<>();
+        recursion(n);
+        return result;
+    }
+    static void recursion(int n){
+        if(n == 1){
+            result.add(1);
+            return;
+        }
+        result.add(n);
+        if(n % 2 == 0){
+            recursion((int)Math.sqrt(n));
+        }
+        else{
+            recursion((int)Math.pow(Math.sqrt(n),3));
+        }
+    }
