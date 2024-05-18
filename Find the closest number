@@ -1,0 +1,14 @@
+  public static int findClosest(int n, int k, int[] arr) {
+        // code here
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+             if (a[0] != b[0]) {
+                return a[0] - b[0];
+            }
+            return b[1] - a[1];
+        });
+        for(int it: arr){
+            pq.add(new int[]{Math.abs(it-k),it});
+        }
+        return pq.peek()[1];
+        
+    }
