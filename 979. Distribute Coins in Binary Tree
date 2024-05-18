@@ -1,0 +1,14 @@
+  int steps = 0;
+    public int distributeCoins(TreeNode root) {
+        helper(root);
+        return steps;
+    }
+    public int helper(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        int leftReq = helper(root.left);
+        int rightReq = helper(root.right);
+        steps += (Math.abs(leftReq) + Math.abs(rightReq));
+        return root.val - 1 + leftReq + rightReq;
+    }
