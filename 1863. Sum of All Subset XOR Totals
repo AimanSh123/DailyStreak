@@ -1,0 +1,14 @@
+  int sum;
+    public int subsetXORSum(int[] nums) {
+        sum = 0;
+        recursion(nums, 0, 0);
+        return sum;
+    }
+    public void recursion(int [] nums, int idx, int currXOR){
+        if(idx == nums.length){
+            sum += currXOR;
+            return;
+        }   
+        recursion(nums, idx + 1, currXOR ^ nums[idx]);
+        recursion(nums, idx + 1, currXOR);
+    }
