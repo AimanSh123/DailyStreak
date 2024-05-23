@@ -1,0 +1,25 @@
+public int beautifulSubsets(int[] nums, int k) {
+        Arrays.sort(nums);
+        boolean [] visited = new boolean[nums.length];
+        return recursion(nums, k, visited, 0) - 1;
+    }
+    public int recursion(int [] nums,int k,boolean[]visited, int idx){
+        if(idx == nums.length){
+            return 1;
+        }
+        int notTake = recursion(nums, k, visited, idx + 1);
+        int take = 0; int i;
+        for(i = 0; i < idx; i++){
+            if(visited[i]){
+                if(k == Math.abs(nums[i] - nums[idx])){
+                     break;
+                }
+            }
+        }
+        if(i == idx){
+            visited[idx] = true;
+            take = recursion(nums,k,visited,idx+1);
+            visited[idx] = false;
+        }
+        return take + notTake;
+    }
