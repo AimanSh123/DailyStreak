@@ -1,0 +1,29 @@
+   List<Integer> arrayList;
+    public TreeNode balanceBST(TreeNode root) {
+       if(root == null) return root;
+       arrayList = new ArrayList<>();
+       dfs(root); 
+       return constructTree(arrayList, 0, arrayList.size() - 1);    
+    }
+    public TreeNode constructTree(List<Integer>list,int st, int ed){
+        if(st <= ed){
+            int mid = (st + ed)/2;
+            TreeNode root = new TreeNode(list.get(mid));
+            root.left = constructTree(list, st, mid - 1);
+            root.right = constructTree(list, mid + 1, ed);   
+            return root; 
+        }  
+        else{
+            return null;
+        }
+    }
+    public void dfs(TreeNode root){
+        if(root.left != null){
+            dfs(root.left);
+        }
+        arrayList.add(root.val);
+        if(root.right != null){
+            dfs(root.right);
+        }
+        return;
+    }
