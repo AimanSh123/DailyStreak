@@ -1,0 +1,31 @@
+  List<List<Integer>> ancestorList;
+    public List<List<Integer>> getAncestors(int n, int[][] edges) {
+        List<List<Integer>> graph = new ArrayList<>();
+        ancestorList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+            ancestorList.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            graph.get(edge[0]).add(edge[1]);
+        }
+        for (int i = 0; i < n; i++) {
+            boolean[] visited = new boolean[n];
+            dfs(visited, graph, i);
+            for (int j = 0; j < n; j++) {
+                if (j != i && visited[j]) {
+                    ancestorList.get(j).add(i);
+                }
+            }
+        }
+        return ancestorList;
+    }
+
+    public void dfs(boolean[] visited, List<List<Integer>> graph, int node) {
+        visited[node] = true;
+        for (int neigh : graph.get(node)) {
+            if (!visited[neigh]) {
+                dfs(visited, graph, neigh);
+            }
+        }
+    }
