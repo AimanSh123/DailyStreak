@@ -1,0 +1,63 @@
+ public int maxNumEdgesToRemove(int n, int[][] edges) {
+        Arrays.sort(edges, (a,b)-> b[0] - a[0]);
+        disJoint dsu_Alice = new disJoint(n);
+        disJoint dsu_Bob = new disJoint(n);
+        int edges_Alice = 0;
+        int edges_Bob = 0;
+        int removedEdges = 0;
+        for (int[] edge : edges) {
+            if (edge[0] == 3) {
+                if (dsu_Alice.findParent(edge[1]) != dsu_Alice.findParent(edge[2])) {
+                    dsu_Alice.takeUnion(edge[1], edge[2]);
+                    dsu_Bob.takeUnion(edge[1], edge[2]);
+                    edges_Alice++;
+                    edges_Bob++;
+                } else {
+                    removedEdges++;
+                }
+            } else if (edge[0] == 2) {
+                if (dsu_Bob.findParent(edge[1]) != dsu_Bob.findParent(edge[2])) {
+                    dsu_Bob.takeUnion(edge[1], edge[2]);
+                    edges_Bob++;
+                } else {
+                    removedEdges++;
+                }
+            } else {
+                if (dsu_Alice.findParent(edge[1]) != dsu_Alice.findParent(edge[2])) {
+                    dsu_Alice.takeUnion(edge[1], edge[2]);
+                    edges_Alice++;
+                } else {
+                    removedEdges++;
+                }
+            }
+        }
+        return edges_Bob == n - 1 && edges_Alice == n - 1 ? removedEdges : -1;
+
+    }
+
+    public class disJoint {
+        List<Integer> parent = new ArrayList<>();
+
+        disJoint(int n) {
+            for (int i = 0; i <= n; i++) {
+                parent.add(i);
+            }
+        }
+
+        public int findParent(int u) {
+            if (parent.get(u) == u) {
+                return u;
+            }
+            parent.set(u, findParent(parent.get(u)));
+            return parent.get(u);
+        }
+
+        public void takeUnion(int u, int v) {
+            int ult_u = findParent(u);
+            int ult_v = findParent(v);
+            if (ult_u == ult_v) {
+                return;
+            }
+            parent.set(ult_u, ult_v);
+        }
+    }
