@@ -1,0 +1,23 @@
+   public List<Integer> luckyNumbers (int[][] matrix) {
+        int rows = matrix.length; int cols = matrix[0].length;
+        int [] rowMin = new int[rows];
+        int [] colMax = new int[cols];
+        Arrays.fill(rowMin,Integer.MAX_VALUE);
+        Arrays.fill(colMax,Integer.MIN_VALUE);
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                rowMin[i] = Math.min(rowMin[i],matrix[i][j]);
+                colMax[j] = Math.max(colMax[j],matrix[i][j]);
+            }
+        }
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(matrix[i][j] == rowMin[i] && matrix[i][j] == colMax[j]){
+                    list.add(matrix[i][j]);
+                }
+            }
+        }
+        return list;
+        
+    }
