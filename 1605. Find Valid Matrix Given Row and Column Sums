@@ -1,0 +1,28 @@
+ public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int n = rowSum.length; //row
+        int m = colSum.length; //column
+        int [][] matrix = new int [n][m];
+        int curr_row = 0; int curr_col = 0;
+        while(curr_row < n || curr_col < m){
+            if(curr_row >= n){
+                matrix[n - 1][curr_col] = colSum[curr_col];
+                curr_col++; continue;
+            }
+            else if(curr_col >= m){
+                matrix[curr_row][m-1] = rowSum[curr_row];
+                curr_row++; continue;
+            }
+            int num = Math.min(rowSum[curr_row],colSum[curr_col]);
+            matrix[curr_row][curr_col] = num;
+            rowSum[curr_row] -= num;
+            colSum[curr_col] -= num; 
+
+            if(rowSum[curr_row] == 0){
+                curr_row++;
+            }
+            if(colSum[curr_col] == 0){
+                curr_col++;
+            }
+        }
+        return matrix;
+    }
