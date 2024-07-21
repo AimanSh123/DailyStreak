@@ -1,0 +1,72 @@
+  public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
+        List<List<Integer>> rowGraph = buildGraph(rowConditions, k);
+        List<List<Integer>> colGraph = buildGraph(colConditions, k);
+
+        List<Integer> rowTopo = topologicalSort(rowGraph, k);
+        List<Integer> colTopo = topologicalSort(colGraph, k);
+
+        int[][] matrix = new int[k][k];
+        if (rowTopo.size() != k || colTopo.size() != k) return new int[0][0];  // Return empty matrix if topological sort fails
+
+        int[] rowInd = new int[k + 1];
+        int[] colInd = new int[k + 1];
+
+        for (int i = 0; i < k; i++) {
+            rowInd[rowTopo.get(i)] = i;
+            colInd[colTopo.get(i)] = i;
+        }
+
+        for (int i = 1; i <= k; i++) {
+            matrix[rowInd[i]][colInd[i]] = i;
+        }
+
+        return matrix;
+    }
+
+    public List<Integer> topologicalSort(List<List<Integer>> graph, int k) {
+        int[] inDegree = new int[k + 1];
+        for (int node = 1; node <= k; node++) {
+            for (int neigh : graph.get(node)) {
+                inDegree[neigh]++;
+            }
+        }
+
+        Queue<Integer> q = new ArrayDeque<>();
+        for (int i = 1; i <= k; i++) {
+            if (inDegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        List<Integer> topo = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int node = q.remove();
+            topo.add(node);
+            for (int neigh : graph.get(node)) {
+                inDegree[neigh]--;
+                if (inDegree[neigh] == 0) {
+                    q.add(neigh);
+                }
+            }
+        }
+
+        // Check if there was a cycle (graph not fully topologically sorted)
+        for (int i = 1; i <= k; i++) {
+            if (inDegree[i] > 0) {
+                return new ArrayList<>(); // Return empty list indicating an invalid topo sort
+            }
+        }
+
+        return topo;
+    }
+
+    public List<List<Integer>> buildGraph(int[][] conditions, int k) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i <= k; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int[] condition : conditions) {
+            graph.get(condition[0]).add(condition[1]);
+        }
+        return graph;
+    }
