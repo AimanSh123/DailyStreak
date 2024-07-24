@@ -1,0 +1,31 @@
+ public int[] sortJumbled(int[] mapping, int[] nums) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)-> {
+            if(a[0] != b[0]){
+                return a[0] - b[0];
+            }
+            else{
+                return a[1] - b[1];
+            }
+
+        });
+        for(int i = 0; i < nums.length; i++){
+            int num = nums[i]; int mapNum = 0; int p = 1;
+            mapNum = num == 0 ? mapping[0] : 0;
+          
+               while(num != 0){
+                mapNum += mapping[(num % 10)] * p;
+                num /= 10; p *= 10;
+               }
+
+            pq.add(new int[]{mapNum,i});
+        } 
+        int [] newNum = new int[nums.length];
+        int i = 0;
+        while(!pq.isEmpty()){
+            int [] sol = pq.remove();
+            newNum[i] = nums[sol[1]];
+            i++;
+        }
+        return newNum;
+
+    }
