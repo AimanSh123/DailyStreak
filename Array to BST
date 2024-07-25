@@ -1,0 +1,14 @@
+  public Node sortedArrayToBST(int[] nums) {
+        // Code here
+        return toBST(nums, 0, nums.length - 1);
+    }
+    public Node toBST(int [] nums, int st, int ed){
+        if(st <= ed){
+            int mid = (st + ed)/2;
+            Node curr = new Node(nums[mid]);
+            curr.left = toBST(nums, st, mid - 1);
+            curr.right = toBST(nums, mid + 1, ed);
+            return curr;
+        }
+        return null;
+    }
