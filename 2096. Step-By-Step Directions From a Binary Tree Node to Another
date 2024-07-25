@@ -1,0 +1,54 @@
+ public String getDirections(TreeNode root, int startValue, int destValue) {
+        if (root == null) {
+            return "";
+        }
+        List<int[]> pathSource = new ArrayList<>();
+        List<int[]> pathDest = new ArrayList<>();
+        dfs(root, pathSource, startValue);
+        dfs(root, pathDest, destValue);
+        int srcSize = pathSource.size();
+        int dstSize = pathDest.size();
+        int i = 0;
+        while (i < pathSource.size() && i < pathDest.size() && pathSource.get(i)[0] == pathDest.get(i)[0]) {
+            i++;
+        }
+
+        StringBuilder path = new StringBuilder();
+
+        for (int j = i; j < pathSource.size(); j++) {
+            path.append('U');
+        }
+
+        for (int j = i - 1; j < pathDest.size() - 1; j++) {
+            if (pathDest.get(j)[1] == 1) {
+                path.append('L');
+            } else if (pathDest.get(j)[1] == 2) {
+                path.append('R');
+            }
+        }
+
+        return path.toString();
+
+    }
+
+    public boolean dfs(TreeNode root, List<int[]> path, int target) {
+        if (root == null) {
+            return false;
+        }
+        if (root.val == target) {
+            path.add(new int[] { target, -1 });
+            return true;
+        }
+        path.add(new int[] { root.val, 1 }); // left
+        if (dfs(root.left, path, target)) {
+            return true;
+        }
+        path.remove(path.size() - 1);
+        path.add(new int[] { root.val, 2 }); // right
+        if (dfs(root.right, path, target)) {
+            return true;
+        }
+        path.remove(path.size() - 1);
+
+        return false;
+    }
