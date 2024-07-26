@@ -1,0 +1,17 @@
+boolean kPangram(String str, int k) {
+        // code here
+        if(str.length() < 26) return false;
+        int [] freq = new int[26];
+        int charCount = 0;
+        for(char ch : str.toCharArray()){
+            if(ch == ' ') continue;
+            freq[ch - 'a']++; charCount++;
+        } 
+        if(charCount < 26)
+           return false;
+        int counter = 0;
+        for(int i : freq){
+            if(i == 0) counter++;
+        }
+        return k >= counter;
+    }
