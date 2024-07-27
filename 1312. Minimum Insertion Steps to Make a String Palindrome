@@ -1,0 +1,19 @@
+ public int minInsertions(String str) {
+        int [][] dp = new int[str.length() + 1][str.length() + 1];
+        String str2 = "";
+        for(int i = str.length() - 1; i >= 0; i--){
+           str2 += str.charAt(i);
+        }
+        for(int i = str.length() - 1; i >= 0; i--){
+            for(int j = str2.length() - 1; j >= 0; j--){
+                int take = 0;
+                if(str.charAt(i) == str2.charAt(j)){
+                    take = 1 + dp[i + 1][j + 1];
+                }
+                int notTake1 = dp[i + 1][j];
+                int notTake2 = dp[i][j + 1];
+                dp[i][j] = Math.max(take, Math.max(notTake1, notTake2));
+            }
+        }
+        return str.length() - dp[0][0];
+    }
