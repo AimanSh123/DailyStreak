@@ -1,0 +1,12 @@
+ String removeDups(String str) {
+        // code here
+        int [] freq = new int[26];
+        String word = "";
+        for(char ch: str.toCharArray()){
+            if(freq[ch - 'a'] == 0){
+                word += ch;
+            }
+            freq[ch - 'a'] ++;
+        }
+        return word;
+    }
