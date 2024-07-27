@@ -1,0 +1,48 @@
+public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
+        List<List<Pair>> graph = new ArrayList<>();
+        for(int i = 0; i < 26; i++)
+           graph.add(new ArrayList<>());
+        for(int i = 0; i < original.length; i++){
+            graph.get(original[i] - 'a').add(new Pair(changed[i] - 'a',cost[i]));
+        }  
+        HashMap<String, Long> map = new HashMap<>();  
+        long minCost = 0;
+        for(int i = 0; i < source.length(); i++){
+            String key = source.charAt(i) + "->" + target.charAt(i);
+            if(map.containsKey(key)){
+                minCost += map.get(key);
+                continue;
+            }
+            long costToGo = dijkstra(graph, source.charAt(i) - 'a',target.charAt(i) - 'a');
+            map.put(key, costToGo);
+            if(costToGo == Integer.MAX_VALUE){
+                return -1;
+            }
+            minCost += costToGo;
+        }
+        return minCost == Integer.MAX_VALUE ? -1 : minCost;
+    }
+    int dijkstra(List<List<Pair>> graph, int src, int trgt){
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.wt - b.wt);
+        pq.add(new Pair(src,0));
+        int [] dist = new int[26];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int currNode = p.node; int currDist = p.wt;
+            for(Pair neigh : graph.get(currNode)){
+                if(dist[neigh.node] > currDist + neigh.wt){
+                    dist[neigh.node] = currDist + neigh.wt;
+                    pq.add(new Pair(neigh.node, dist[neigh.node]));
+                }
+            }
+        }
+        return dist[trgt];
+    }
+    class Pair{
+        int node; int wt;
+        Pair(int node, int wt){
+            this.node = node; this.wt = wt;
+        }
+    }
