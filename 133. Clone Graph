@@ -1,0 +1,27 @@
+  public Node cloneGraph(Node node) {
+        if(node == null){
+            return null;
+        }
+        if(node.neighbors.size() == 0){
+            return new Node(node.val);
+        }
+        HashMap<Node, Node> map = new HashMap<>();
+        return dfs(node, map);
+    } 
+    public Node dfs(Node node, HashMap<Node,Node> map){
+        if(node == null){
+            return null;
+        }
+        Node clone = new Node(node.val);
+        List<Node> neighbors = new ArrayList<>();
+        map.put(node, clone);
+        for(Node neigh : node.neighbors){
+            if(map.containsKey(neigh)){
+                neighbors.add(map.get(neigh));
+                continue;
+            }
+            neighbors.add(dfs(neigh,map));
+        }
+        clone.neighbors = neighbors;
+        return clone;
+    }
