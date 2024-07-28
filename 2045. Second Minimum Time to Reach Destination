@@ -1,0 +1,44 @@
+ public int secondMinimum(int n, int[][] edges, int time, int change) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i <= n; i++)
+           graph.add(new ArrayList<>());
+        for(int [] edge: edges){
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        } 
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)-> a.time - b.time);
+        boolean destNode = false; pq.add(new Pair(1,0));
+        int [] visited = new int[n + 1];
+        int [] timeTill = new int[n + 1];
+        Arrays.fill(timeTill, Integer.MAX_VALUE);
+        timeTill[1] = 0;
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            int currNode = p.node; int currTime = p.time;
+            int signal = (currTime / change);
+            if(signal % 2 == 1){
+                currTime = (change * (signal + 1));//red light : need to wait till green light
+            }
+            for(int neigh : graph.get(currNode)){
+                if(timeTill[neigh] != time + currTime && visited[neigh] < 2){
+                    if(neigh == n && destNode){
+                        return currTime + time;
+                    }
+                    if(neigh == n){
+                        destNode = true;
+                    }
+                    timeTill[neigh] = time + currTime;
+                    pq.add(new Pair(neigh, time + currTime));
+                    visited[neigh]++; 
+                }
+            }
+        }
+        return -1;
+    }
+    class Pair{
+        int node; int time;
+        Pair(int node, int time){
+            this.node = node;
+            this.time = time;
+        }
+    }
