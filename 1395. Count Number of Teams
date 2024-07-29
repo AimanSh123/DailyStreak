@@ -1,0 +1,62 @@
+//recursive approach 
+ public int numTeams(int[] rating) {
+        // lets do with dp
+        int [] dp = new int[rating.length];
+        Arrays.fill(dp, -1);
+        return recursion(rating, 0, new ArrayList<>(), dp);
+     }
+
+    public int recursion(int[] rating, int i, List<Integer> list, int [] dp) {
+        if (list.size() == 3) {
+            return 1;
+        }
+        if (i == rating.length) {
+            return 0;
+        }
+        if(dp[i] != -1){
+            return dp[i];
+        }
+        int take = 0;
+        if (list.size() == 0 || formTeam(list, rating[i])) {
+            list.add(rating[i]);
+            take = recursion(rating, i + 1, list, dp);
+            list.remove(list.size() - 1); // Backtrack
+        }
+        int notTake = recursion(rating, i + 1, list, dp);
+        return take + notTake;
+    }
+
+    public boolean formTeam(List<Integer> list, int val) {
+        if (list.size() < 2) {
+            return true; 
+        }
+        int first = list.get(0);
+        int second = list.get(1);
+        if (first < second && second < val) {
+            return true; 
+        }
+        if (first > second && second > val) {
+            return true;
+        }
+        return false; 
+    }
+
+//optimal solution
+ public int numTeams(int[] rating) {
+        int n = rating.length;
+        int count = 0;
+        for(int i = 0; i < n; i++){
+            int leftDec = 0, leftInc = 0;
+            int rightDec = 0, rightInc = 0;
+            for(int j = 0; j < i; j++){
+                if(rating[j] > rating[i]) leftDec++;
+                if(rating[j] < rating[i]) leftInc++;
+            }
+            for(int k = i + 1; k < n; k++){
+                if(rating[i] > rating[k]) rightDec++;
+                if(rating[i] < rating[k]) rightInc++;
+            }
+            count += (leftInc * rightInc) + (rightDec * leftDec);
+        }
+        return count;    
+    }
