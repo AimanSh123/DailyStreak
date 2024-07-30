@@ -1,0 +1,33 @@
+class Solution {
+    int[] x = {1, 0, 0, -1}; // Down, right, up, left
+    int[] y = {0, 1, -1, 0};
+    char[] position = {'D', 'R', 'L', 'U'};
+    ArrayList<String> list;
+    public ArrayList<String> findPath(int[][] mat) {
+        // Your code here
+        int n = mat.length;
+        if(mat[0][0] == 0 || mat[n-1][n-1] == 0){
+            return new ArrayList<>();
+        }
+        boolean [][] visited = new boolean[n][n];
+        list = new ArrayList<>();
+        visited[0][0] = true;
+        recursion(mat, 0, 0, visited, "");
+        return list;
+    }
+    public void recursion(int[][]mat,int i, int j, boolean[][]visited,String s){
+        if(i == mat.length - 1 && j == mat[0].length - 1){
+            list.add(s);
+            return;
+        }
+        visited[i][j] = true;
+        for(int pos = 0; pos < 4; pos++){
+            int row = i + x[pos];
+            int col = j + y[pos];
+            if(row >= 0 && row < mat.length && col >= 0 && col < mat.length && !visited[row][col] && mat[row][col] == 1){
+                recursion(mat, row, col, visited, s + position[pos]);
+            }
+        }
+        visited[i][j] = false;
+    }
+}
