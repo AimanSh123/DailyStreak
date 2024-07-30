@@ -1,0 +1,17 @@
+public long minimumSteps(String s) {
+        long steps = 0;
+        int i = 0, j = 0;
+        int n = s.length();
+        char[] table = s.toCharArray();
+        while (j < n) {
+            if (table[j] == '0') {
+                steps += (j - i);
+                table[i] = '0';
+                table[j] = '1';
+                i++;
+            }
+            j++;
+
+        }
+        return steps;
+    }
