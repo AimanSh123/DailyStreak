@@ -1,0 +1,48 @@
+//recursion
+ public int minimumDeletions(String s) {
+        HashMap<String, Integer> map = new HashMap<>();
+        return recursion(s, 0, 0, 0, map);
+    }
+    public int recursion(String s, int i, int cntA, int cntB, HashMap<String,Integer>map){
+        if(i == s.length()){
+            return 0;
+        }
+        String key = i + ", " + cntA + ", " + cntB;
+        if(map.containsKey(key)){
+            return map.get(key);
+        }
+        int notTake = Integer.MAX_VALUE;
+        int takeA = Integer.MAX_VALUE;
+        int takeB = Integer.MAX_VALUE;
+        if(s.charAt(i) == 'a'){
+            takeA = cntB + recursion(s, i + 1, cntA + 1, cntB, map);
+        }
+        else{
+            takeB = recursion(s, i + 1, cntA, cntB + 1, map);
+        }
+        notTake = recursion(s, i + 1, cntA, cntB, map) + 1;
+        int value = Math.min(takeA, Math.min(takeB, notTake));
+        map.put(key, value);
+        return value;
+    }
+//optimal approach
+   public int minimumDeletions(String s) {
+        int countB = 0; int n = s.length();
+        int [] deletionCount = new int[n];
+        for(int i = 0; i < n; i++){
+            if(i == 0){
+                if(s.charAt(i) == 'b'){
+                    countB++;
+                }
+                continue;
+            }
+            else if(s.charAt(i) == 'b'){
+                deletionCount[i] = deletionCount[i-1];
+                countB++;
+            }
+            else{
+               deletionCount[i] = Math.min(deletionCount[i-1] + 1, countB);  
+            }
+        }
+        return deletionCount[n - 1];
+    }
