@@ -1,0 +1,25 @@
+   public int findRadius(int[] houses, int[] heaters) {
+        //binary search to solve this
+        Arrays.sort(heaters);
+        int ans = 0;
+        for(int i = 0; i < houses.length; i++){
+            int st = 0; int ed = heaters.length - 1;
+            int curr_Radius = Integer.MAX_VALUE;
+            while(st <= ed){
+                int mid = (ed + st)/2;
+                curr_Radius = Math.min(curr_Radius, Math.abs(houses[i] - heaters[mid]));
+                if(houses[i] == heaters[mid]){
+                    curr_Radius = 0;
+                    break;
+                }
+                else if(houses[i] > heaters[mid]){
+                    st = mid + 1;
+                }
+                else{
+                    ed = mid - 1;
+                }            
+            }
+            ans = Math.max(curr_Radius, ans);
+        }
+        return ans;
+    }
