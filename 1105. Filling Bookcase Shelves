@@ -1,0 +1,41 @@
+//recursion
+  int width;
+    public int minHeightShelves(int[][] books, int shelfWidth) {
+        width = shelfWidth;
+        return recursion(books, 0, shelfWidth, 0);
+    }
+    public int recursion(int[][] books, int i, int shelfWidth, int maxH){
+        if(i == books.length){
+            return maxH;
+        }
+        int keep = Integer.MAX_VALUE;
+        if(books[i][0] <= shelfWidth){
+            keep = recursion(books,i+1,shelfWidth - books[i][0],Math.max(maxH,books[i][1]));
+        }
+        int notTake = maxH + recursion(books,i+1,width-books[i][0],books[i][1]);
+        return Math.min(keep, notTake);
+    }
+// memoization
+  int width;
+    public int minHeightShelves(int[][] books, int shelfWidth) {
+        width = shelfWidth;
+        int [][] dp = new int[books.length][width + 1];
+        for(int [] it : dp){
+            Arrays.fill(it, -1);
+        }
+        return recursion(books, 0, shelfWidth, 0, dp);
+    }
+    public int recursion(int[][] books, int i, int shelfWidth, int maxH, int[][] dp){
+        if(i == books.length){
+            return maxH;
+        }
+        if(dp[i][shelfWidth] != -1){
+            return dp[i][shelfWidth];
+        }
+        int keep = Integer.MAX_VALUE;
+        if(books[i][0] <= shelfWidth){
+            keep = recursion(books,i+1,shelfWidth - books[i][0],Math.max(maxH,books[i][1]),dp);
+        }
+        int notTake = maxH + recursion(books,i+1,width-books[i][0],books[i][1], dp);
+        return dp[i][shelfWidth] = Math.min(keep, notTake);
+    }
