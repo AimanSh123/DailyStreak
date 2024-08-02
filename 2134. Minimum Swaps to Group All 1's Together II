@@ -1,0 +1,27 @@
+  public int minSwaps(int[] nums) {
+        int n = nums.length; 
+        int [] newNum = new int[n * 2];
+        int ones = 0; int zeroes = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 1) ones++;
+            else zeroes++;
+            newNum[i] = nums[i];
+            newNum[n + i] = nums[i];
+        }
+        int i = 0; int j = 0;
+        int one = 0; int count = Integer.MAX_VALUE;
+        while(j < 2 * n){
+            if(newNum[j] == 1){
+                one++;
+            }
+            if(j - i + 1 == ones){
+                count = Math.min(count, ones - one);
+                if(newNum[i] == 1){
+                    one--;
+                }
+                i++;
+            }
+            j++;
+        }
+        return count == Integer.MAX_VALUE ? 0 : count;
+    }
