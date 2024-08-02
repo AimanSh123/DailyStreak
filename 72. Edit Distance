@@ -45,28 +45,27 @@
      
 
 //tabulation
- public int minDistance(String word1, String word2) {
-        // int [][] dp = new int[word1.length() + 1][word2.length() + 1];
-        // for(int j = 0; j <= word2.length(); j++){
-        //     dp[0][j] = j;
-        // }
-        // for(int i = 0; i <= word1.length(); i++){
-        //     dp[i][0] = i;
-        // }
-        // for(int i = 1; i <= word1.length(); i++){
-        //     for(int j = 1; j <= word2.length(); j++){
-        //          if(word1.charAt(i - 1) == word2.charAt(j - 1)){
-        //            dp[i][j] = dp[i - 1][j - 1];
-        //            continue;
-        //           }
-        //            int insert = 1 +  dp[i][j - 1];
-        //            int delete = 1 +  dp[i - 1][j];
-        //            int replace = 1 +  dp[i - 1][j - 1];
-        //             dp[i][j] = Math.min(insert, Math.min(delete, replace));
-    
-        //     }
-        // }
-       
-        // return dp[word1.length()][word2.length()];
+ public int editDistance(String str1, String str2) {
+        // Code here
+        int [][] dp = new int[str1.length() + 1][str2.length() + 1];
+        for(int i = 0; i < str1.length(); i++){
+            dp[i][str2.length()] = str1.length() - i;
+        }
+        for(int j = 0; j < str2.length(); j++){
+            dp[str1.length()][j] = str2.length() - j;
+        }
+        for(int i = str1.length() - 1; i >= 0; i--){
+            for(int j = str2.length() - 1; j >= 0; j--){
+                int take = Integer.MAX_VALUE;
+                if(str1.charAt(i) == str2.charAt(j)){
+                  take = dp[i+1][j+1]; 
+                }
+                int insert = dp[i][j + 1] + 1;
+                int delete = dp[i+1][j] + 1;
+                int replace = dp[i+1][j+1] + 1;
+                int operation = Math.min(insert, Math.min(delete, replace));
+                dp[i][j] = Math.min(take, operation);
+            }
+        }
+        return dp[0][0];
     }
-     
