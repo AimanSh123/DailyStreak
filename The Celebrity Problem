@@ -1,0 +1,44 @@
+//using 2 arrays
+public int celebrity(int mat[][]) {
+        // code here
+        int n = mat.length;
+        int [] knowMe = new int [n];
+        int [] Iknow = new int[n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(mat[i][j] == 1){
+                    knowMe[j]++;
+                    Iknow[i]++;
+                }
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(knowMe[i] == n - 1 && Iknow[i] == 0){
+                return i;
+            }
+        }
+        return -1;
+    }
+//optimal approach
+ public int celebrity(int mat[][]) {
+        // code here
+        int n = mat.length; 
+        int top = 0; int down = n - 1;
+        while(top < down){
+            if(mat[top][down] == 1){
+                top++; //down cant be celebrity
+            }
+            else if(mat[down][top] == 1){
+                down--; //top cant be celebrity
+            }
+            else{
+                top++; down--;
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(mat[top][i] != 0 || (i != top && mat[i][top] != 1)){
+                return -1;
+            }
+        }
+        return top;
+    }
