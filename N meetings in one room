@@ -1,0 +1,18 @@
+  public int maxMeetings(int n, int start[], int end[]) {
+        // add your code here
+        if(n == 0) return 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[1]-b[1]);
+        for(int i = 0; i < n; i++){
+            pq.add(new int[]{start[i],end[i]});
+        }
+        int maxMeet = 1;
+        int ed = pq.remove()[1];
+        while(!pq.isEmpty()){
+            int [] curr = pq.remove();
+            if(ed < curr[0]){
+                maxMeet++;
+                ed = curr[1];
+            }
+        }
+        return maxMeet;
+    }
