@@ -1,0 +1,26 @@
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        // Code here
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+        Queue<Pair> q = new ArrayDeque<>();
+        q.add(new Pair(root, 0));
+        while(!q.isEmpty()){
+            Pair p = q.remove();
+            Node node = p.node; int idx = p.idx;
+            map.put(idx,node.data);
+            if(node.left != null){
+                q.add(new Pair(node.left,idx - 1));
+            }
+            if(node.right != null){
+                q.add(new Pair(node.right,idx + 1));
+            }
+        }
+        return new ArrayList<>(map.values());
+    }
+    class Pair{
+        Node node; int idx;
+        Pair(Node node, int idx){
+            this.node = node;
+            this.idx = idx;
+        }
+    }
