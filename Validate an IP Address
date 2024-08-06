@@ -1,0 +1,21 @@
+ public boolean isValid(String str) {
+        String[] eachNum = str.split("\\."); 
+        if (eachNum.length != 4) {
+          return false; // IPv4 addresses should have exactly 4 parts
+    }
+    for (String curr : eachNum) {
+        if (curr.isEmpty() || (curr.length() > 1 && curr.charAt(0) == '0')) {
+            return false; // Ensure no segment is empty and no leading zeros
+        }
+        int num;
+        try {
+            num = Integer.parseInt(curr);
+        } catch (NumberFormatException e) {
+            return false; // If the current part is not a number
+        }
+        if (num < 0 || num > 255) {
+            return false;
+        }
+    }
+    return true;
+    }
