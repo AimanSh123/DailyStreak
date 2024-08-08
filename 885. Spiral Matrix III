@@ -1,0 +1,24 @@
+ public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        //ESWN
+        int [][] list = new int[rows * cols][2];
+       int direction = 0; 
+        int [] dx = {0,1,0,-1};
+        int [] dy = {1,0,-1,0};
+        int steps = 0; int k = 0;
+        list[k++] = new int[]{rStart, cStart}; 
+        while(k < rows * cols){
+            if(direction % 2 == 0)
+               steps++;
+            for(int i = 0; i < steps; i++){
+                rStart += dx[direction];
+                cStart += dy[direction];
+                if(rStart >= 0 && rStart < rows && cStart >= 0 && cStart < cols){
+                    list[k][0] = rStart;
+                    list[k][1] = cStart;
+                    k++;
+                }
+            }   
+            direction = (direction + 1) % 4;
+        }
+        return list;
+    }
