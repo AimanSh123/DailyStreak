@@ -1,0 +1,43 @@
+ public int numMagicSquaresInside(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int count = 0;
+        for (int cRow = 0; cRow <= rows - 3; cRow++) {
+            for (int cCol = 0; cCol <= cols - 3; cCol++) {
+                if (isMagicSquare(grid, cRow, cCol))
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isMagicSquare(int[][] grid, int row, int col) {
+        HashSet<Integer> set = new HashSet<>();
+        int[] sum = new int[8];
+        int diag = row + col;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int val = grid[row + i][col + j];
+
+                if (val < 1 || val > 9 || !set.add(val)) {
+                    return false; 
+                }
+                sum[i] += val;
+                sum[3 + j] += val;
+                if (i == j)
+                    sum[6] += val;
+                if (i + j == 2)
+                    sum[7] += val;
+            }
+        }
+        return isEqual(sum);
+    }
+
+    public boolean isEqual(int[] sum) {
+        int val = sum[0];
+        for (int it : sum) {
+            if (val != it)
+                return false;
+        }
+        return true;
+    }
