@@ -1,0 +1,21 @@
+ int[] JobScheduling(Job arr[], int n)
+    {
+        Arrays.sort(arr,(a,b)->b.profit-a.profit);
+        int maxDeadline = 0;
+        for(Job it : arr){
+           maxDeadline = Math.max(maxDeadline,it.deadline);
+        }
+        int jobs = 0, profit = 0;
+       boolean [] taken = new boolean[maxDeadline + 1];
+       for(int i = 0; i < arr.length; i++){
+           for(int j = arr[i].deadline; j >= 1; j--){
+                if(!taken[j]){
+                   taken[j] = true;
+                   profit += arr[i].profit;
+                   jobs++;
+                   break;
+                }
+           }
+       }
+       return new int[]{jobs,profit};
+    }
