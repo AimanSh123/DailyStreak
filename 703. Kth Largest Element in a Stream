@@ -1,0 +1,27 @@
+ PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> a - b);
+    int k; 
+    public KthLargest(int k, int[] nums) {
+        this.k = k;
+        for (int it : nums) {
+            if (pq.size() < k) {
+                pq.add(it);
+            } else {
+                if (pq.peek() < it) {
+                    pq.remove();
+                    pq.add(it);
+                }
+            }
+        }
+    }
+
+    public int add(int val) {
+        if (pq.size() < k) {
+            pq.add(val);
+        } else {
+            if (pq.peek() < val) {
+                pq.remove();
+                pq.add(val);
+            }
+        }
+        return pq.peek();
+    }
