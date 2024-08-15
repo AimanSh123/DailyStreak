@@ -1,0 +1,25 @@
+ public boolean lemonadeChange(int[] bills) {
+        int[] currency = new int[2];
+        for(int i = 0; i < bills.length; i++){
+            if(bills[i] == 5)
+                currency[0]++;
+            else if(bills[i] == 10){ 
+                if(currency[0] == 0)
+                   return false;
+                currency[1]++;
+                currency[0]--;   
+            }    
+            else{
+                if(currency[1] > 0 && currency[0] > 0){
+                    currency[1]--;
+                    currency[0]--;
+                }
+                else if(currency[0] >= 3){
+                    currency[0] -= 3;
+                }
+                else
+                   return false;
+            }
+        }
+        return true;     
+    }
