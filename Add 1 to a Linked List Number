@@ -1,0 +1,29 @@
+   public Node addOne(Node head) {
+        // code here.
+        Node curr = reverse(head);
+        Node tail = curr;
+        int carry = 1;
+        Node prev = null;
+        while(curr != null){
+            int val = curr.data;
+            curr.data = (curr.data + carry) % 10;
+            carry = (val + carry) / 10;
+            prev = curr; curr = curr.next;
+        }
+        if(carry != 0){
+            prev.next = new Node(carry);
+        }
+        return reverse(tail);
+    }
+    public Node reverse(Node curr){
+        Node prev = null;
+        Node current = curr;
+        Node next = null;
+        while (current != null) {
+            next = current.next; 
+            current.next = prev; 
+            prev = current;      
+            current = next; 
+        }  
+        return prev;
+    }
