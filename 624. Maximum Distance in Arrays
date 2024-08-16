@@ -1,0 +1,24 @@
+  public int maxDistance(List<List<Integer>> arrays) {
+        int maxi = Integer.MIN_VALUE;
+        PriorityQueue<Pair> minHeap = new PriorityQueue<>((a,b)->a.dist-b.dist);
+        PriorityQueue<Pair> maxHeap = new PriorityQueue<>((a,b)->b.dist-a.dist);
+        for(int i = 0; i < arrays.size(); i++){
+            int size = arrays.get(i).size();
+            minHeap.add(new Pair(arrays.get(i).get(0),i));
+            maxHeap.add(new Pair(arrays.get(i).get(size - 1),i));
+        }
+        int minVal = minHeap.peek().dist; int maxVal = maxHeap.peek().dist;
+        maxi = Math.abs(minVal - maxVal);
+        if(minHeap.remove().idx == maxHeap.remove().idx){
+            int nextMin = minHeap.peek().dist;
+            int nextMax = maxHeap.peek().dist;
+            maxi = Math.max(Math.abs(nextMin - maxVal),Math.abs(nextMax - minVal));
+        }   
+        return maxi;
+    }
+    class Pair{
+        int dist; int idx;
+        Pair(int dist, int idx){
+            this.dist = dist; this.idx = idx;
+        }
+    }
