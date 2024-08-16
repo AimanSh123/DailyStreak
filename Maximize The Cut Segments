@@ -14,13 +14,9 @@
         if(dp[n] != -1){
             return dp[n];
         }
-        int takeX = recursion(dp, n - x, x, y, z);
-        int takeY = recursion(dp, n - y, x, y, z);
-        int takeZ = recursion(dp, n - z, x, y, z);
-
-        if (takeX != Integer.MIN_VALUE) takeX++;
-        if (takeY != Integer.MIN_VALUE) takeY++;
-        if (takeZ != Integer.MIN_VALUE) takeZ++;
+        int takeX = 1 + recursion(dp, n - x, x, y, z);
+        int takeY = 1 + recursion(dp, n - y, x, y, z);
+        int takeZ = 1 + recursion(dp, n - z, x, y, z);
 
         dp[n] = Math.max(takeX, Math.max(takeY, takeZ));
         return dp[n];
