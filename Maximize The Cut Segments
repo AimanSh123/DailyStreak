@@ -21,3 +21,23 @@
         dp[n] = Math.max(takeX, Math.max(takeY, takeZ));
         return dp[n];
     }
+//optimal approach
+  public int maximizeCuts(int n, int x, int y, int z)
+    {
+       //Your code here
+        int[]dp = new int[n + 1];
+        dp[0] = 0;
+        for(int i = 1; i <= n; i++){
+            int takeX = Integer.MIN_VALUE;
+            int takeY = Integer.MIN_VALUE;
+            int takeZ = Integer.MIN_VALUE;
+            if(i >= x)
+                takeX = 1 + dp[i - x];
+            if(i >= y)    
+                takeY = 1 + dp[i - y];
+            if(i >= z)    
+                takeZ = 1 + dp[i - z];
+           dp[i] = Math.max(takeX, Math.max(takeY, takeZ));
+        }
+        return dp[n] < 0 ? 0 : dp[n];
+    }
