@@ -1,0 +1,89 @@
+//recursion
+  public long maxPoints(int[][] points) {
+        return recursion(points, 0 , -1);
+    }
+    public int recursion(int[][]points, int idx, int prev){
+        if(idx == points.length)
+           return 0;
+        int maxi = 0;
+        for(int i = 0; i < points[0].length; i++){
+            int val = points[idx][i];
+            if(prev != -1){
+               val -= Math.abs(prev - i);
+            }
+            maxi = Math.max(maxi,val + recursion(points,idx+1,i));
+        }   
+        return maxi;
+    }
+//memoization
+  public long maxPoints(int[][] points) {
+        int[][] dp = new int[points.length][points[0].length + 1];
+        for(int[] row : dp)
+           Arrays.fill(row,-1);
+        return recursion(points, 0 , -1, dp);
+    }
+    public int recursion(int[][]points, int idx, int prev, int[][] dp){
+        if(idx == points.length)
+           return 0;
+        if(dp[idx][prev + 1] != -1)
+           return dp[idx][prev + 1];   
+        int maxi = 0;
+        for(int i = 0; i < points[0].length; i++){
+            int val = points[idx][i];
+            if(prev != -1){
+               val -= Math.abs(prev - i);
+            }
+            maxi = Math.max(maxi,val + recursion(points,idx+1,i,dp));
+        }   
+        return dp[idx][prev + 1] = maxi;
+    }
+
+//tabulation
+ public long maxPoints(int[][] points) {
+        int rows = points.length;
+        int cols = points[0].length;
+        long[][] dp = new long[rows + 1][cols + 1];
+        for (int idx = rows - 1; idx >= 0; idx--) {
+            for (int prev = cols - 1; prev >= -1; prev--) {
+                long maxi = 0;
+                for (int i = 0; i < points[0].length; i++) {
+                    int val = points[idx][i];
+                    if (prev != -1) {
+                        val -= Math.abs(prev - i);
+                    }
+                    maxi = Math.max(maxi,val + dp[idx+1][i+1]);
+                }
+                dp[idx][prev + 1] = maxi;
+            }
+        }
+        return dp[0][0];
+    }
+//optimal approach : n*m
+ public long maxPoints(int[][] points) {
+        int rows = points.length;
+        int cols = points[0].length;
+        long[][] dp = new long[rows + 1][cols + 1];
+        for(int i = 0; i < cols; i++){
+            dp[rows - 1][i] = points[rows - 1][i];
+        }
+        for (int idx = rows - 2; idx >= 0; idx--) {
+            long[] leftMax = new long[cols];
+            long[] rightMax = new long[cols];
+            leftMax[0] = dp[idx + 1][0];
+            for(int i = 1; i < cols; i++){
+                leftMax[i] = Math.max(leftMax[i - 1] - 1,dp[idx+1][i]);   
+            }
+            rightMax[cols - 1] = dp[idx + 1][cols - 1];
+            for(int i = cols - 2; i >= 0; i--){
+                rightMax[i] = Math.max(rightMax[i+1] - 1,dp[idx+1][i]);
+            }
+            for(int i = 0; i < cols; i++){
+                dp[idx][i] = points[idx][i] + Math.max(rightMax[i],leftMax[i]);
+            }         
+        }
+        long maxi = 0;
+        for(long it : dp[0]){
+            maxi = Math.max(it,maxi);
+        }
+        return maxi;
+    }
