@@ -1,0 +1,21 @@
+//brute force 
+ public int maxScoreSightseeingPair(int[] values) {
+        int n = values.length;
+        int maxi = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = i + 1; j < n; j++){
+                maxi = Math.max(maxi, values[i] + values[j] + i - j);
+            }
+        } 
+        return maxi;
+    }
+//optimal approach
+ public int maxScoreSightseeingPair(int[] values) {
+        int n = values.length;
+        int maxi = 0; int val = values[0];
+        for(int i = 1; i < n; i++){
+            maxi = Math.max(maxi, values[i] - i + val);
+            val = Math.max(val, values[i] + i);
+        }
+        return maxi;
+    }
