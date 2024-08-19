@@ -1,0 +1,60 @@
+public int minSteps(int n) {
+        if(n == 1) return 0;
+        return recursion(n,1,1) + 1;
+    }
+    public int recursion(int n, int currA, int copyA){
+        if(n == currA) return 0;
+        if(n < currA) return Integer.MAX_VALUE;
+        int copyPaste = recursion(n,currA + currA, currA);
+        if(copyPaste != Integer.MAX_VALUE)
+           copyPaste += 2;
+        int paste = recursion(n,currA + copyA,copyA);
+        if(paste != Integer.MAX_VALUE)
+           paste += 1;
+        return Math.min(copyPaste, paste);      
+    }
+//memoization
+ public int minSteps(int n) {
+        if(n == 1) return 0;
+        int[][] dp = new int[n+1][n+1];
+        for(int[] row: dp)
+          Arrays.fill(row,-1);
+        return recursion(dp,n,1,1) + 1;
+    }
+    public int recursion(int[][]dp,int n, int currA, int copyA){
+        if(n == currA) return 0;
+        if(n < currA) return Integer.MAX_VALUE;
+        if(dp[currA][copyA] != -1)
+           return dp[currA][copyA];
+        int copyPaste = recursion(dp,n,currA + currA, currA);
+        if(copyPaste != Integer.MAX_VALUE)
+           copyPaste += 2;
+        int paste = recursion(dp,n,currA + copyA,copyA);
+        if(paste != Integer.MAX_VALUE)
+           paste += 1;
+        return dp[currA][copyA] = Math.min(copyPaste, paste);      
+    }
+//tabulation
+public int minSteps(int n) {
+        if (n == 1)
+            return 0;
+        int[][] dp = new int[n + 1][n + 1];
+        for (int currA = n - 1; currA >= 1; currA--) {
+            for (int copyA = 1; copyA < n; copyA++) {
+                int copyPaste = Integer.MAX_VALUE;
+                int paste = Integer.MAX_VALUE;
+                if (currA + currA <= n) {
+                    copyPaste = dp[currA + currA][currA];
+                    if (copyPaste != Integer.MAX_VALUE)
+                        copyPaste += 2;
+                }
+                if (currA + copyA <= n) {
+                    paste = dp[currA + copyA][copyA];
+                    if (paste != Integer.MAX_VALUE)
+                        paste += 1;
+                }
+                dp[currA][copyA] = Math.min(copyPaste, paste);
+            }
+        }
+        return dp[1][1] + 1;
+    }
