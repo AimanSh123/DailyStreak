@@ -1,0 +1,23 @@
+//recursive 
+ public boolean stoneGame(int[] piles) {
+        int[][] dp = new int[piles.length][piles.length];
+        for(int [] row: dp)
+           Arrays.fill(row,-1);
+        return recursion(dp,piles, 0, piles.length - 1) > 0 ? true : false;
+    }
+    public int recursion(int[][]dp,int[]piles, int i, int j) {
+        if (i >= j) return 0;
+        if(dp[i][j] != -1) 
+          return dp[i][j];
+        int start = piles[i] - recursion(dp,piles,i+1,j);
+        int end = piles[j] - recursion(dp,piles,i,j-1);
+        return dp[i][j] = Math.max(start,end);       
+    }
+//optimal approach
+//either alice can pick all even index and bob pick all odd index
+//or alice can pick all odd index and bob pick all even index
+//now it is mentioned total sum is odd -> it means either even index sum > odd index or vice versa 
+//meaning alice can take the sum which is more -> means in all situation alice wins 
+  public boolean stoneGame(int[] piles) {
+        return true;
+    }
