@@ -1,0 +1,29 @@
+ public int stoneGameII(int[] piles) {
+        //0: Alice
+        //1: Bob
+        int[][][] dp = new int[piles.length + 1][piles.length + 1][2];
+        for(int[][] grid: dp){
+            for(int[] row: grid){
+                Arrays.fill(row,-1);
+            }
+        }
+        return recursion(dp,piles,0,0,1);
+    }
+    public int recursion(int[][][]dp,int[]piles,int play, int i,int m){
+        if(i >= piles.length) return 0;
+        if(dp[i][m][play] != -1) 
+            return dp[i][m][play];
+        int result = 0; int stones = 0;
+        if(play == 0) result = Integer.MIN_VALUE;
+        else result = Integer.MAX_VALUE;
+        for(int x = 1; x <= Math.min(piles.length - i,2 * m); x++){ 
+            if(play == 0){
+                stones += piles[x + i - 1];
+                result = Math.max(result,stones+recursion(dp,piles,1,x+i,Math.max(x,m)));    
+            }
+            else{
+                result = Math.min(result,recursion(dp,piles,0,x+i,Math.max(x,m)));
+            }
+        }
+        return dp[i][m][play] = result;
+    }
