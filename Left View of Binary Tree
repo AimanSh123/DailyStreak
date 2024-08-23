@@ -1,0 +1,25 @@
+ArrayList<Integer> leftView(Node root)
+    {
+       
+        ArrayList<Integer> list = new ArrayList<>();
+        Queue<Node> q = new ArrayDeque<>();
+        q.add(root); int level = -1;
+        while(!q.isEmpty()){
+            int size = q.size();
+            level++;
+            for(int i = 0; i < size; i++){
+                Node curr = q.remove();
+                if(list.size() == level){
+                    list.add(curr.data);
+                }
+                if(curr.left != null){
+                    q.add(curr.left);
+                }
+                if(curr.right != null){
+                    q.add(curr.right);
+                }
+            }
+            
+        }
+        return list;
+    }
