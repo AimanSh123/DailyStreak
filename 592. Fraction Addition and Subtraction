@@ -1,0 +1,24 @@
+  public String fractionAddition(String expression) {
+        int num = 0; int den = 1;
+        Pattern pattern = Pattern.compile("([+-]?\\d+)/(\\d+)");
+        Matcher match = pattern.matcher(expression);
+
+        while(match.find()){
+            int numerator = Integer.parseInt(match.group(1));
+            int denominator = Integer.parseInt(match.group(2));
+            num = numerator * den + num * denominator;
+            den *= denominator;
+            int gcd = gcd(Math.abs(num),den);
+            num /= gcd;
+            den /= gcd;
+        }
+        return num + "/" + den; 
+    }
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
