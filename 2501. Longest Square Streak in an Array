@@ -1,0 +1,19 @@
+class Solution {
+    public int longestSquareStreak(int[] nums) {
+        //we will use a map to solve this
+        Arrays.sort(nums);
+        int len = -1;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int it: nums){
+            int sqrt = (int) Math.sqrt(it);
+            if(sqrt * sqrt == it && map.containsKey(sqrt)){
+                map.put(it,map.get(sqrt) + 1);
+                len = Math.max(len,map.get(it));
+            }
+            else{
+                map.put(it, 1);
+            }
+        }    
+        return len;
+    }
+}
