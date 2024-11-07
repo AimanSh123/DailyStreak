@@ -1,0 +1,32 @@
+class Solution {
+    public boolean canSortArray(int[] nums) {
+        int [] setBits = new int[nums.length];
+        int [] originalNum = Arrays.copyOf(nums, nums.length);
+        for(int i = 0; i < nums.length; i++){
+            setBits[i] = Integer.bitCount(nums[i]);   
+        }
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length; i++){
+            int j = i;
+            while(j + 1 < nums.length && setBits[j + 1] == setBits[j])
+               j++;
+            if(!check(originalNum, nums, i, j)) return false; 
+            i = j;  
+        }
+        return true;
+    }
+    public boolean check(int[] nums, int []newNum, int i, int j){
+        List<Integer> list = new ArrayList<>();
+        for(int it = i; it <= j; it++){
+            list.add(nums[it]);
+            System.out.println("nums " + nums[it] + " newNum " + newNum[it]);
+        }
+        Collections.sort(list);
+        for(int it = i; it <= j; it++){
+           if (!list.get(it - i).equals(newNum[it])) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
