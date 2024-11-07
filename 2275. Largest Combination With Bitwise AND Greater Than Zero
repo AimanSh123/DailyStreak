@@ -1,0 +1,56 @@
+//brute force approach
+class Solution {
+    public int largestCombination(int[] candidates) {
+        return recursion(candidates, 0, null);
+    }
+    public int recursion(int[] candidates,int i,Integer andTill){
+        if(i == candidates.length){
+            if(andTill != null && andTill > 0) return 0;
+            return Integer.MIN_VALUE;
+        }
+        int take = recursion(candidates,i + 1, andTill == null ? candidates[i] : (andTill & candidates[i]));
+        if(take != Integer.MIN_VALUE){
+            take++;
+        }
+        int notTake = recursion(candidates,i+1,andTill);
+        return Math.max(take,notTake);
+    }
+}
+//memoization
+class Solution {
+    private HashMap<String, Integer> map;
+    public int largestCombination(int[] candidates) {
+        map = new HashMap<>();
+        return recursion(candidates, 0, null);
+    }
+    public int recursion(int[] candidates,int i,Integer andTill){
+        if(i == candidates.length){
+            if(andTill != null && andTill > 0) return 0;
+            return Integer.MIN_VALUE;
+        }
+        String key = i + "," + (andTill == null ? "null" : andTill);
+        if(map.containsKey(key))
+             return map.get(key);
+        int take = recursion(candidates,i + 1, andTill == null ? candidates[i] : (andTill & candidates[i]));
+        if(take != Integer.MIN_VALUE){
+            take++;
+        }
+        int notTake = recursion(candidates,i+1,andTill);
+        map.put(key,Math.max(take,notTake));
+        return map.get(key);
+    }
+}
+//most optimal approach
+class Solution {
+    public int largestCombination(int[] candidates) {
+        int maxi = 0; int n = candidates.length;
+        for(int i = 0; i < 32; i++){
+            int count = 0;
+            for(int num: candidates){
+                if(((num >> i) & 1) == 1) count++;
+            }
+            maxi = Math.max(maxi, count);       
+        }
+        return maxi;
+    }
+}
