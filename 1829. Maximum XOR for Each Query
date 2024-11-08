@@ -1,0 +1,15 @@
+class Solution {
+    public int[] getMaximumXor(int[] nums, int maximumBit) {
+        int[] sol = new int[nums.length];
+        int max_xor = (int)Math.pow(2,maximumBit) - 1;
+        int xor = 0;
+        for(int i = 0; i < nums.length; i++){
+            xor ^= nums[i];  
+        }
+        for(int i = 0; i < nums.length; i++){
+            sol[i] = max_xor ^ xor;
+            xor ^= nums[nums.length - i - 1];    
+        }
+        return sol;
+    }
+}
