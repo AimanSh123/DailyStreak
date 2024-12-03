@@ -1,0 +1,43 @@
+//brute force
+class Solution {
+    public String addSpaces(String s, int[] spaces) {
+        Stack<Character> st = new Stack<>();
+        int i = 0; int j = 0;
+        while(i < s.length() || j < spaces.length){
+            if(j < spaces.length && i == spaces[j]){st.add(' '); j++;}
+            st.add(s.charAt(i)); i++;
+        }
+        String res = "";
+        while(!st.isEmpty()){
+            res = st.pop() + res;
+        }
+        return res;
+    }
+}
+//better
+class Solution {
+    public String addSpaces(String s, int[] spaces) {
+        String res = "";
+        int i = 0; int j = 0;
+        while(i < s.length() || j < spaces.length){
+            if(j < spaces.length && i == spaces[j]){res+= ' '; j++;}
+            res += s.charAt(i); i++;
+        }
+        return res;
+    }
+}
+//optimal
+class Solution {
+    public String addSpaces(String s, int[] spaces) {
+        StringBuilder res = new StringBuilder();
+        int j = 0;
+        while(j < spaces.length){
+            if(j == 0) res.append(s.substring(0,spaces[0]));
+            if(j + 1 < spaces.length)
+                res.append(' ' + s.substring(spaces[j],spaces[j+1]));
+            j++;
+        }
+        res.append(' ' + s.substring(spaces[spaces.length - 1]));
+        return res.toString();
+    }
+}
