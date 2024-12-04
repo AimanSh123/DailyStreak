@@ -1,0 +1,15 @@
+class Solution {
+    public boolean canMakeSubsequence(String str1, String str2) {
+        int i = 0; int j = 0;
+        while(i < str1.length() && j < str2.length()){
+            char ch = str1.charAt(i); 
+            int val = ch - 'a'; char incr = (char)('a' + (val + 1) % 26);
+            System.out.println("i is " + i + "char " + incr);
+            if(str1.charAt(i) == str2.charAt(j) || incr == str2.charAt(j))
+                j++;
+            i++;           
+        }   
+        if(j < str2.length()) return false;
+        return true;
+    }
+}
