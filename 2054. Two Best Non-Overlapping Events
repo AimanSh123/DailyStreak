@@ -1,0 +1,46 @@
+class Solution {
+    public int maxTwoEvents(int[][] events) {
+        Pair[] eventsList = new Pair[events.length];
+        for(int i = 0; i < events.length; i++){
+            int[] event = events[i];
+            eventsList[i] = new Pair(event[0],event[1],event[2]);
+        }
+        Arrays.sort(eventsList,(a,b)->(a.ed - b.ed));
+        int [] maxi = new int[events.length];
+        maxi[0] = eventsList[0].value;
+        for(int i = 1; i < events.length; i++){
+            maxi[i] = Math.max(maxi[i-1],eventsList[i].value);  
+        }
+        int ans = maxi[events.length - 1];
+        for(int i = 1; i < events.length; i++){
+            int index = binarySearch(eventsList,eventsList[i].st - 1);
+            if(index == -1)continue;
+            ans = Math.max(ans,maxi[index] + eventsList[i].value);
+        }
+        return ans;    
+    }
+    public int binarySearch(Pair[] eventsList, int target){
+        if(target < eventsList[0].ed) return -1;
+        int st = 0; int end = eventsList.length - 1;
+        int res = 0;
+        while(st <= end){
+            int mid = (st + end)/2;
+            if(eventsList[mid].ed <= target){
+                st = mid + 1;
+                res = mid;
+            }
+            else{
+                end = mid - 1;
+            }
+        }
+        return res;
+    }
+    class Pair{
+        int st; int ed; int value;
+        Pair(int st, int ed, int value){
+            this.st = st;
+            this.ed = ed;
+            this.value = value;
+        }
+    }
+}
