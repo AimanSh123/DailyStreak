@@ -1,0 +1,24 @@
+class Solution {
+    public int maximumBeauty(int[] nums, int k) {
+        Arrays.sort(nums); int n = nums.length;
+        int[] minRange = new int[n]; 
+        int[] maxRange = new int[n];
+        for(int i = 0; i < n; i++){
+            minRange[i] = nums[i] - k;
+            maxRange[i] = nums[i] + k;
+        }
+        int i = 0; int j = 0;
+        int num = maxRange[0]; int maxCount = 0;
+        while(j < n){
+            if(minRange[j] <= num && maxRange[j] >= num){
+                maxCount = Math.max(maxCount,j-i+1);
+                j++;
+            }
+            else{
+                i++;
+                if(i < n) num = maxRange[i];
+            }
+        }
+        return maxCount;
+    }
+}
