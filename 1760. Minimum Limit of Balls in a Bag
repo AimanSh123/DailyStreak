@@ -1,0 +1,27 @@
+class Solution {
+    public int minimumSize(int[] nums, int maxOperations) {
+        //using binary search
+        int st = 1; int ed = 0; int ans = 0;
+        for(int it: nums) ed = Math.max(it, ed);
+        while(st <= ed){
+            int mid = (st + ed)/2;
+            if(isPossible(nums,mid,maxOperations)){
+                ans = mid;
+                ed = mid - 1;
+            }
+            else{
+                st = mid + 1;
+            }
+        }
+        return ans;
+    }
+    public boolean isPossible(int[]nums,int tar, int maxOperations){
+        int currOperations = 0;
+        for(int num: nums){
+            if(num < tar) continue;
+            currOperations += (int) (Math.ceil((double)num / tar)) - 1;
+            if(currOperations > maxOperations) return false;   
+        }
+        return true;
+    }
+}
