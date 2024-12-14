@@ -1,0 +1,38 @@
+//using hashset
+class Solution {
+    public int maxCount(int[] banned, int n, int maxSum) {
+        int currSum = 0; int count = 0;
+        HashSet<Integer> set = new HashSet<>();
+        for(int it: banned) set.add(it);
+        for(int i = 1; i <= n; i++){
+            if(!set.contains(i) &&  currSum + i <= maxSum){
+                currSum+= i;count++;
+            }     
+        }
+        return count;
+        
+    }
+}
+//using binary search
+class Solution {
+    public int maxCount(int[] banned, int n, int maxSum) {
+        int currSum = 0; int count = 0;
+        Arrays.sort(banned);
+         for(int i = 1; i <= n; i++){
+            if(binarySearch(banned,i)) continue;
+            if(currSum + i > maxSum) break;
+            currSum += i; count++;
+        }
+        return count;
+    }
+    public boolean binarySearch(int[]banned,int target){
+        int st = 0; int ed = banned.length - 1;
+        while(st <= ed){
+            int mid = (st + ed)/2;
+            if(banned[mid] == target) return true;
+            if(banned[mid] < target) st = mid + 1;
+            else ed = mid - 1;
+        }
+        return false;
+    }
+}
