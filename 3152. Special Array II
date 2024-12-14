@@ -1,0 +1,15 @@
+class Solution {
+    public boolean[] isArraySpecial(int[] nums, int[][] queries) {
+        int[]prefix = new int[nums.length];
+        for(int i = 1; i < nums.length; i++){
+            prefix[i] = prefix[i-1];
+            prefix[i] += (nums[i - 1]%2 != nums[i] % 2? 1 : 0);
+        }
+        boolean[] solution = new boolean[queries.length];
+        for(int i = 0; i < queries.length; i++){
+            int st = queries[i][0]; int ed = queries[i][1];
+            solution[i] = (prefix[ed] - prefix[st]) == ed - st ? true : false;
+        }
+        return solution;
+    }
+}
