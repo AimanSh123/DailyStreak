@@ -1,0 +1,30 @@
+class Solution {
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        double total = 0; double ans = 0;
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->
+         Double.compare(
+                (b.pass + 1) / (b.total + 1) - b.pass / b.total,
+                (a.pass + 1) / (a.total + 1) - a.pass / a.total)  
+        );
+        for(int[] clases : classes){
+            pq.add(new Pair(clases[0],clases[1]));
+        }
+        while(extraStudents > 0){
+            Pair p = pq.remove();
+            pq.add(new Pair(p.pass + 1,p.total + 1));
+            extraStudents--;
+        }
+        while(!pq.isEmpty()){
+            Pair p = pq.remove();
+            ans +=  p.pass/p.total;
+        }
+        return ans / classes.length;
+    }
+    class Pair{
+        double pass; double total;
+        Pair(double pass,double total){
+           this.pass = pass;
+            this.total = total;
+        }
+    }
+}
