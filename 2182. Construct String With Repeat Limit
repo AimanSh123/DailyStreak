@@ -1,0 +1,34 @@
+class Solution {
+    public String repeatLimitedString(String s, int repeatLimit) {
+        int[] freq = new int[26];
+        for(char ch: s.toCharArray()) freq[ch - 'a']++;
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->b.letter-a.letter);
+        for(int i = 0; i < freq.length; i++){
+            if(freq[i] > 0) pq.add(new Pair(i,freq[i]));
+        }
+        StringBuilder sol = new StringBuilder();
+        while(!pq.isEmpty()){
+            Pair p = pq.remove(); int i = 0;
+            while(i < Math.min(p.occur,repeatLimit)){
+                sol.append((char) (p.letter + 'a'));
+                i++;
+            }
+            if(p.occur <= repeatLimit) continue;
+            if(!pq.isEmpty()){
+                Pair nextP = pq.remove();
+                sol.append((char) (nextP.letter + 'a'));
+                if(nextP.occur > 1) pq.add(new Pair(nextP.letter,nextP.occur - 1));
+                pq.add(new Pair(p.letter,p.occur-repeatLimit));
+            }
+            else break;            
+        }
+        return sol.toString();        
+    }
+    class Pair{
+        int letter; int occur;
+        Pair(int letter, int occur){
+            this.letter = letter;
+            this.occur = occur;
+        }
+    }
+}
