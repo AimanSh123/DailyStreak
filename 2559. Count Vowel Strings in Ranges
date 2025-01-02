@@ -1,0 +1,25 @@
+class Solution {
+    public int[] vowelStrings(String[] words, int[][] queries) {
+        int[] left = new int[words.length];
+        int[] sol = new int[queries.length];
+        for(int i = 0; i < words.length; i++){
+            String word = words[i];
+            if(checkVowel(word,0) && checkVowel(word,word.length() - 1)){
+                left[i]++;   
+            }   
+            if(i != 0) left[i] += left[i-1];
+        }
+        for(int i = 0; i < queries.length; i++){
+            int[] query = queries[i];
+            if(query[0] == 0) sol[i] = left[query[1]];
+            else sol[i] = left[query[1]] - left[query[0] - 1];
+        }
+        return sol;     
+    }
+    public boolean checkVowel(String word, int idx){
+        if(word.charAt(idx) == 'a' || word.charAt(idx) == 'e' || word.charAt(idx) == 'i' || 
+        word.charAt(idx) == 'o' || word.charAt(idx) == 'u')
+           return true;
+        return false;   
+    }
+}
