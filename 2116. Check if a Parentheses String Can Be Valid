@@ -1,0 +1,25 @@
+class Solution {
+    public boolean canBeValid(String s, String locked) {
+        int n = s.length();
+        if(n % 2 == 1) return false;
+        Stack<Integer> openBrackets = new Stack<>();
+        Stack<Integer> wildCard = new Stack<>();
+        for(int i = 0; i < n; i++){
+            if(locked.charAt(i) == '0') wildCard.push(i);
+            else if(s.charAt(i) == '('){
+                openBrackets.push(i);
+            }
+            else{
+                if(!openBrackets.isEmpty()) openBrackets.pop();
+                else if(!wildCard.isEmpty()) wildCard.pop();
+                else return false;
+            }
+        }
+        while(!openBrackets.isEmpty() && !wildCard.isEmpty() && openBrackets.peek() < wildCard.peek()){
+            openBrackets.pop();
+            wildCard.pop();
+        }
+        if(!openBrackets.isEmpty()) return false;
+        return true;
+    }   
+}
