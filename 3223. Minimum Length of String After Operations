@@ -1,0 +1,17 @@
+    public int minimumLength(String s) {
+        int[]occur = new int[26];
+        int n = s.length(); int count = 0;
+        for(int i = 0; i < n; i++){
+            occur[s.charAt(i) - 'a']++;
+        } 
+        for(int it: occur){
+            if(it >= 3){
+                if(it % 2 == 0) count += 2;
+                else count += 1;
+            }
+            else{
+                count+= it;     
+            }
+        }
+        return count;        
+    }
