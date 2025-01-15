@@ -17,3 +17,19 @@ class Solution {
         return sol;
     }
 }
+//optimal approach
+class Solution {
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+       //optimal approach
+       int n = A.length; int[] sol = new int[n];
+       int[] freq = new int[n+1]; int count = 0;
+       for(int i = 0; i < n; i++){
+           freq[A[i]]++;
+           if(freq[A[i]] == 2) count++;
+           freq[B[i]]++;
+           if(freq[B[i]] == 2) count++;
+           sol[i] = count;
+       }
+       return sol;
+    }
+}
