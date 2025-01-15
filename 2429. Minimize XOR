@@ -1,0 +1,28 @@
+class Solution {
+    public int minimizeXor(int num1, int num2) {
+        int targetBits = Integer.bitCount(num2);
+        int setBits = Integer.bitCount(num1);
+        int bit = 0; int result = num1;
+        while(setBits < targetBits){
+            if((num1 & (1 << bit)) == 0){
+                result = setBit(result,bit);
+                setBits++;
+            }
+            bit++;
+        }
+        while(setBits > targetBits){
+            if((num1 & (1 << bit)) != 0){
+                result = unsetBit(result,bit);
+                setBits--;
+            }
+            bit++;
+        }
+        return result;
+    }
+    private int setBit(int result, int bit){
+        return result | (1 << bit);
+    }
+    private int unsetBit(int result, int bit){
+        return result & ~(1 << bit);
+    }
+}
